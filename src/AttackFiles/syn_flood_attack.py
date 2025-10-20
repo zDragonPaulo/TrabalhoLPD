@@ -34,6 +34,3 @@ def syn_attack():
     
     # Envia o pacote para a 3ª camada. Só para quando o utilizador apertar CTRL+C
     send(p, loop=1, verbose=0) 
-
-
-syn_attack()

@@ -1,3 +1,11 @@
+# Paulo Abade - 23919
+# Mestrado de Engenharia de Segurança Informática
+# Iniciado em 19/10/2025
+# Última atualização: 20/10/2025
+
+# É o menu da aplicação
+
+
 from AttackFiles.syn_flood_attack import syn_attack
 
 

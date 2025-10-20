@@ -1,5 +1,10 @@
+from AttackFiles.syn_flood_attack import syn_attack
+
+
+
+
 print("Bem vindo a este projeto. \n Desenvolvido por Paulo Abade - 23919\n")
-def main_menu():
+def main():
     print(" 1 - Port Checking \n 2 - DoS \n 3 - SYN Flood \n 4 - Analisar Logs \n 5 - Troca de Mensagens \n 6 - Port Knocking \n 7 - Gestor de Passwords \n 0 - Sair")
     option = -1
     while(option != 0):
@@ -13,6 +18,7 @@ def main_menu():
                 print("DoS")
             case "3":
                 print("SYN Flood")
+                syn_attack()
             case "4":
                 print("Analisar Logs")
             case "5":
@@ -27,7 +33,9 @@ def main_menu():
             case _:
                 print("Escolha uma opção válida. Entre 1 a 7 ou 0 para sair")
     # Start again
-main_menu()
+
+if __name__ == "__main__":
+    main()
 
 
 

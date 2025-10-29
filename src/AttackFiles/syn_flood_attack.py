@@ -37,7 +37,7 @@ def syn_attack():
             else:
                 print("Erro: A porta deve estar entre 1 e 65535")
         except ValueError:
-        print("Erro: Insira apenas números")
+            print("Erro: Insira apenas números")
     
     # É informado qual o endereço de destino
     ip = IP(dst=target_ip)

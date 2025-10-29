@@ -1,19 +1,22 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 19/10/2025
-# Última atualização: 20/10/2025
+# Última atualização: 29/10/2025
 
 # É o menu da aplicação
 
 
 from AttackFiles.syn_flood_attack import syn_attack
+from CheckingFiles.PortScanner import nmap_scan
 
 
-
-
-print("Bem vindo a este projeto. \n Desenvolvido por Paulo Abade - 23919\n")
-def main():
+# Mostra o menu da aplicação
+def print_menu():
     print(" 1 - Port Checking \n 2 - DoS \n 3 - SYN Flood \n 4 - Analisar Logs \n 5 - Troca de Mensagens \n 6 - Port Knocking \n 7 - Gestor de Passwords \n 0 - Sair")
+
+def main():
+    print("Bem vindo a este projeto. \n Desenvolvido por Paulo Abade - 23919\n")
+    print_menu()
     option = -1
     while(option != 0):
         answer = input("Escolha uma opção: ")
@@ -21,7 +24,8 @@ def main():
         match answer:
 
             case "1":
-                print("Portchecking")
+                print("Port Scan")
+                nmap_scan()
             case "2":
                 print("DoS")
             case "3":
@@ -41,6 +45,9 @@ def main():
             case _:
                 print("Escolha uma opção válida. Entre 1 a 7 ou 0 para sair")
     # Start again
+
+        print("Iniciando o programa novamente.\n")    
+        print_menu()
 
 if __name__ == "__main__":
     main()

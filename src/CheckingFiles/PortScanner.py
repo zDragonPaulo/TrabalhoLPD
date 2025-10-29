@@ -59,6 +59,3 @@ def nmap_scan():
             print(f"Porta {port} está {state}") 
         else:
             print(f"Porta {port} está closed/filtered (sem informação)")
-
-if __name__ == "__main__":
-    nmap_scan()

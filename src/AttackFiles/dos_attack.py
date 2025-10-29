@@ -9,7 +9,8 @@
 
 import sys 
 import threading
-
+from scapy.all import *
+import ipaddress
 
 
 def dos_attack():

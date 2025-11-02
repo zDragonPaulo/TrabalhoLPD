@@ -9,32 +9,35 @@ import ipaddress
 def nmap_scan():
     print("Verificação de Portas de um Endereço IP\n")
     # Validar o endereço IP
-    while True:
+    is_an_ip = False
+    while not is_an_ip:
         target_ip = input("Insira um IP dentro da sua rede privada (ex: 192.168.1.254): \n")
         try:
             ip_obj = ipaddress.ip_address(target_ip)
-            if ip_obj.is_private:
-                break
-            print("Erro: Insira um IP privado (192.168.x.x, 10.x.x.x, 172.16-31.x.x)")
+            is_an_ip = True
         except ValueError:
             print("Erro: Formato de IP inválido")
 
     # Validar as portas (1-65535)
-    while True:
+    isnumber1 = False
+    while not isnumber1:
         try:
             target_port_min = int(input("Insira a porta inicial (1-65535): \n"))
             if 1 <= target_port_min <= 65535:
-                break
-            print("Erro: A porta deve estar entre 1 e 65535")
+                isnumber1 = True
+            else:
+                print("Erro: A porta deve estar entre 1 e 65535")
         except ValueError:
             print("Erro: Insira apenas números")
     
-    while True:
+    isnumber2 = False
+    while not isnumber2:
         try:
             target_port_max = int(input(f"Insira a porta final ({target_port_min}-65535): \n"))
             if target_port_min <= target_port_max <= 65535:
-                break
-            print(f"Erro: A porta deve estar entre {target_port_min} e 65535")
+                isnumber2 = True
+            else:
+                print(f"Erro: A porta deve estar entre {target_port_min} e 65535")
         except ValueError:
             print("Erro: Insira apenas números")
         

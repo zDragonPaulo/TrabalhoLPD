@@ -7,6 +7,7 @@
 
 
 from AttackFiles.syn_flood_attack import syn_attack
+from AttackFiles.dos_attack import dos_attack
 from CheckingFiles.PortScanner import nmap_scan
 
 
@@ -28,6 +29,7 @@ def main():
                 nmap_scan()
             case "2":
                 print("DoS")
+                dos_attack()
             case "3":
                 print("SYN Flood")
                 syn_attack()

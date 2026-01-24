@@ -19,7 +19,6 @@ def syn_attack():
         target_ip = input("Insira um IP dentro da sua rede privada (ex: 192.168.1.254): \n")
         try:
             ip_obj = ipaddress.ip_address(target_ip)
-            # Verifica se é um IP privado
             is_an_ip = True
         except ValueError:
             print("Erro: Formato de IP inválido")

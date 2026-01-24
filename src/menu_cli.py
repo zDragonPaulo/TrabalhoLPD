@@ -9,6 +9,8 @@
 from AttackFiles.syn_flood_attack import syn_attack
 from AttackFiles.dos_attack import dos_attack
 from CheckingFiles.PortScanner import nmap_scan
+from CheckingFiles.PortKnocker import knock
+from PasswordFiles.PasswordManager import password_menu
 
 
 # Mostra o menu da aplicação
@@ -38,17 +40,14 @@ def main():
             case "5":
                 print("TODO Chamar o ficheiro do Troca de Mensagens")
             case "6":
-                print("TODO Chamar o ficheiro do PortKnocking")
+                knock()
             case "7":
-                print("TODO Chamar o ficheiro do Gestor de Passwords")
+                password_menu()
             case "0":
                 print("Saindo..")
                 option = 0
             case _:
                 print("Escolha uma opção válida. Entre 1 a 7 ou 0 para sair")
-    # Start again
-
-        print("Iniciando o programa novamente.\n")    
         print_menu()
 
 if __name__ == "__main__":

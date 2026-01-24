@@ -10,6 +10,7 @@ from AttackFiles.syn_flood_attack import syn_attack
 from AttackFiles.dos_attack import dos_attack
 from CheckingFiles.PortScanner import nmap_scan
 from CheckingFiles.PortKnocker import knock
+from CheckingFiles.LogReporter import analyze_logs
 from PasswordFiles.PasswordManager import password_menu
 
 
@@ -36,7 +37,7 @@ def main():
                 print("SYN Flood")
                 syn_attack()
             case "4":
-                print("Analisar Logs")
+                analyze_logs()
             case "5":
                 print("TODO Chamar o ficheiro do Troca de Mensagens")
             case "6":

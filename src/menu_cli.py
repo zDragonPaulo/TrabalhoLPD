@@ -24,7 +24,7 @@ def main():
     option = -1
     while(option != 0):
         answer = input("Escolha uma opção: ")
-
+        
         match answer:
 
             case "1":
@@ -47,9 +47,11 @@ def main():
             case "0":
                 print("Saindo..")
                 option = 0
+                break
             case _:
                 print("Escolha uma opção válida. Entre 1 a 7 ou 0 para sair")
         print_menu()
+        
 
 if __name__ == "__main__":
     main()

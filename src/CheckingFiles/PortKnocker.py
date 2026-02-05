@@ -7,6 +7,7 @@
 
 from scapy.all import IP, TCP, send
 import time
+import ipaddress
 
 def knock():
     # Validar o endereço IP

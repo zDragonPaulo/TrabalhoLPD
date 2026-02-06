@@ -1,0 +1,6 @@
+cryptography
+fpdf2
+scapy
+qrcode
+pyotp
+geoip2

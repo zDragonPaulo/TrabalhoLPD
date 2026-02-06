@@ -203,16 +203,10 @@ Sendo assim, o que será feito neste trabalho é:
     mensagens.
     \item Implementar a funcionalidade de Port Knocking, onde o cliente irá enviar uma sequência específica de pacotes para portas fechadas em um 
     sistema, e quando a sequência correta for recebida, o sistema irá adicionar o endereço IP do remetente a uma lista de permissões temporária, 
-    permitindo o acesso ao dispositivo. Será utilizado um servidor Alma Linux 8.10 para testar esta funcionalidade, pois já havia sido 
-    trabalhado com este sistema operativo na Licentiatura em Engenharia Informática com esta funcionalidade, sendo assim mais fácil de 
-    reutilizar o servidor já configurado para esta funcionalidade.
+    permitindo o acesso ao dispositivo.
     \item Implementar a funcionalidade de gestão de passwords, onde o utilizador poderá criar, ler, atualizar e eliminar passwords de 
     forma segura, utilizando a biblioteca \textit{\textbf{cryptography}} do Python para encriptar as passwords antes de as armazenar em 
-    uma base de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las. Para tornar isto seguro, é 
-    necessário utilizar a biblioteca \textit{\textbf{pyotp}} que faz uma autenticação de dois fatores, onde o utilizador terá que 
-    fornecer um código gerado por uma aplicação de autenticação, como o Microsoft Authenticator, para poder acessar às passwords 
-    armazenadas na base de dados. Para facilitar a utilização desta funcionalidade, será criado um QR code utilizando a biblioteca 
-    \textit{\textbf{qrcode}} do Python, para que seja rápido de conectar à aplicação de autenticação, sem precisar de digitar o código 
+    uma base de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las com recurso a 2FA.
     manualmente.
 \end{itemize}
 \newpage
@@ -299,14 +293,83 @@ envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshak
 O código foi feito originalmente a partir do exemplo apresentado no seguinte GitHub \url{https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python}.
 São utilizadas threads para enviar os pacotes de forma mais rápida. As bibliotecas utilizadas são: \textit{\textbf{scapy}} e \textit{\textbf{random}}.
 \newpage
+\subsection{Analisador de Logs}
+A funcionalidade de análise de logs foi implementada utilizando as bibliotecas \textit{\textbf{geolite2}}, \textit{\textbf{FPDF}} e 
+\textit{\textbf{csv}} do Python. O código vai ao caminho conhecido do ficheiro de logs do sistema, e em seguida analisa o conteúdo do 
+ficheiro, extraindo informações relevantes como a data e hora dos eventos, o endereço IP de origem, o tipo de evento e uma 
+breve descrição do evento. O código também utiliza a biblioteca \textit{\textbf{geolite2}} para obter a localização geográfica 
+dos endereços IP, e cria relatórios em pdf e csv com as informações extraídas. Para funcionar, foi necessário instalar ainda o
+\textit{rsyslog} no Kali Linux, já que em algumas situações, a instalação por defeito do rsyslog foi abandonada pela maioria das distribuições Linux,
+sendo necessário instalar o rsyslog para que os logs do sistema para o ssh sejam gerados e possam ser analisados pelo código. Os do http já são gerados por defeito, e 
+não foi necessário instalar nenhum serviço adicional para que estes sejam gerados. Para testar a funcionalidade dos logs, foram realizadas algumas tentativas de conexão, mas como 
+estava a ser testado por uma máquina em rede interna, não foi possível obter a localização geográfica dos endereços IP, já que estes eram endereços IP privados, e a base de dados 
+do \textit{\textbf{geolite2}} não tem informações sobre endereços IP privados. Sendo assim, foi "falsificado" o endereço IP de origem dos eventos para um endereço IP público, para 
+que fosse possível obter a localização geográfica dos mesmos e testar a funcionalidade do código.
+
+\subsection{Port Knocker}
+O Port Knocking foi implementado utilizando a biblioteca \textit{\textbf{scapy}} do Python para enviar os pacotes de forma personalizada, onde basicamente o utilizador 
+escolhe um endereço IPv4 alvo, informa o número de portas, e depois informa a sequência de portas para o Port Knocking. O código então envia pacotes TCP para as portas especificadas, 
+com o objetivo de "bater" na porta e permitir o acesso ao dispositivo alvo. Para testar esta funcionalidade, foi utilizado um servidor Alma Linux 8.10, já que este sistema operativo 
+já tinha sido configurado para esta funcionalidade em um trabalho prático anterior, sendo assim mais fácil de reutilizar a configuração já existente para esse sistema operativo.
+
+\subsection{Gestor de Passwords}
+A funcionalidade de gestão de passwords foi implementada utilizando a biblioteca \textit{\textbf{cryptography}} do Python para encriptar as passwords antes de as armazenar em uma base 
+de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las. O código permite ao utilizador criar, ler, atualizar e eliminar registos de credenciais 
+de forma segura, sendo que para fazer qualquer uma das últimas três ações, o utilizador tem que passar por um processo de autenticação de dois fatores (2FA), onde é necessário inserir 
+o código que é gerado pela aplicação de autenticação, neste caso foi utilizado o Microsoft Authenticator, mas poderia ser utilizado qualquer outra aplicação de autenticação que suporte 
+o protocolo TOTP (Time-based One-Time Password). Para facilitar o processo de configuração do 2FA, o código gera um QR code que pode ser escaneado pela aplicação de autenticação para 
+adicionar a conta.
+
+\newpage 
+\subsection{Servidor de Mensagens}
+Este foi o último módulo a ser implementado, e foi o mais complexo de todos, já que envolveu a criação de um servidor e um cliente para a troca de mensagens encriptadas. O responsável 
+pelo servidor é o Kali Linux, ou seja, aquele deixara armazenada a base de dados com as mensagens, e o cliente é um script Python que pode ser executado em qualquer máquina, e que se 
+conecta ao servidor para enviar e receber mensagens. O código do servidor utiliza a biblioteca \textit{\textbf{socket}} para criar um servidor TCP, e a 
+biblioteca \textit{\textbf{cryptography}} para encriptar e desencriptar as mensagens. O código do cliente também utiliza a biblioteca \textit{\textbf{socket}} para se conectar 
+ao servidor, e a biblioteca \textit{\textbf{cryptography}} para encriptar as mensagens antes de as enviar, e para desencriptar as mensagens recebidas do servidor. 
+
+Este script de mensagens baseia-se nas chaves assimétricas RSA para a encriptação e desencriptação das mensagens, onde o servidor gera um par de chaves (uma chave pública e 
+uma chave privada), e o cliente utiliza a chave pública do servidor para encriptar as mensagens antes de as enviar, e o servidor utiliza a sua chave privada para desencriptar as 
+mensagens recebidas. Para testar esta funcionalidade, foi necessário configurar o servidor para aceitar conexões na porta 12345, e depois executar o cliente em outra máquina 
+para se conectar ao servidor e enviar mensagens. Assim que é estabelecida a conexão, existe a troca de chaves públicas entre o cliente e o servidor, para que o cliente possa 
+encriptar as mensagens antes de as enviar, e o servidor possa desencriptar as mensagens recebidas. O cliente pode enviar mensagens, listar e fazer download das mesmas e 
+eliminar mensagens, e o servidor irá armazenar as mensagens em ficheiros binários encriptados.
+\newpage 
+\subsection{Script de Instalação}
+Para instalar as dependências necessárias para o funcionamento do projeto, foi criado um script de instalação em bash, que pode ser executado na maioria dos sistemas Linux, desde 
+que utilizem o gerenciador de pacotes apt, como é o caso do Kali Linux. O script atualiza a lista de pacotes do sistema, garante que o Python3 e o PIP estão instalados, e instala 
+as bibliotecas necessárias para o funcionamento do projeto, como o rsyslog para a geração dos logs do ssh, o apache2 para a geração dos logs do http, e as bibliotecas do Python 
+necessárias para as funcionalidades implementadas.\\\\
+\begin{minipage}{\textwidth}
+    \begin{verbatim}
+        #!/bin/bash
+
+        echo "--- A instalar dependências para o Projeto ---"
+
+        # Atualizar a lista de pacotes do sistema
+        sudo apt update
+        # Garantir que o Python3 e o PIP estão instalados
+        sudo apt install -y python3 python3-pip rsyslog apache2
+        sudo systemctl start --now rsyslog apache2
 
 
+        # Instalar as bibliotecas do requirements.txt
+        # O --break-system-packages é necessário em versões novas do Kali/Debian
+        pip3 install -r requirements.txt --break-system-packages
+
+        echo "--- Instalação concluída com sucesso! ---"
+    \end{verbatim}
+   
+\end{minipage}
+O txt do script de instalação pode ser encontrado no ficheiro \textbf{installer.sh} na pasta \textbf{src} do projeto, junto do ficheiro \textbf{requirements.txt} que contém 
+as bibliotecas do Python necessárias para o funcionamento do projeto.
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Conclusão}\label{conclusao}
 
-%---------------------------------------------------------------------------------------------------------------------------
-
-\newpage
+Foi um trabalho prático bastante complexo, que envolveu a implementação de várias funcionalidades relacionadas com a segurança informática, sendo bastante trabalhoso e exigente, 
+especialmente na parte de desenvolvimento do servidor de mensagens, que foi o módulo mais complexo de todos. No entanto, foi um trabalho bastante interessante de ver a aplicação crescer 
+ao longo do tempo, e de ver as funcionalidades a serem implementadas e testadas em um ambiente controlado. Foi possível aprender bastante sobre a utilização de várias bibliotecas do Python,
+e sobre a implementação de funcionalidades relacionadas com a segurança informática, como o DoS Attack e o Syn Flood Attack. 
 \renewcommand{\refname}{Bibliografia} % Para artigos
 \renewcommand{\bibname}{Bibliografia} % Para livros e relatórios
 \addcontentsline{toc}{section}{Bibliografia} % Adiciona a Bibliografia ao índice

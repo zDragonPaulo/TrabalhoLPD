@@ -1,7 +1,7 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 19/10/2025
-# Última atualização: 29/10/2025
+# Última atualização: 06/02/2026
 
 # É o menu da aplicação
 
@@ -12,14 +12,16 @@ from CheckingFiles.PortScanner import nmap_scan
 from CheckingFiles.PortKnocker import knock
 from CheckingFiles.LogReporter import analyze_logs
 from PasswordFiles.PasswordManager import password_menu
+from ChatFiles.server_chat import start_server
 
 
 # Mostra o menu da aplicação
 def print_menu():
-    print(" 1 - Port Checking \n 2 - DoS \n 3 - SYN Flood \n 4 - Analisar Logs \n 5 - Troca de Mensagens \n 6 - Port Knocking \n 7 - Gestor de Passwords \n 0 - Sair")
-
+    print("\n" + "="*35)
+    print(" 1 - Port Checking \n 2 - DoS \n 3 - SYN Flood \n 4 - Analisar Logs \n 5 - Iniciar o Servidor de Chat \n 6 - Port Knocking \n 7 - Gestor de Passwords \n 0 - Sair")
+    print("\n" + "="*35)
 def main():
-    print("Bem vindo a este projeto. \n Desenvolvido por Paulo Abade - 23919\n")
+    print("\nBem vindo a este projeto.\nDesenvolvido por Paulo Abade - 23919\n")
     print_menu()
     option = -1
     while(option != 0):
@@ -37,10 +39,13 @@ def main():
                 print("SYN Flood")
                 syn_attack()
             case "4":
+                print("Analizador de Logs")
                 analyze_logs()
             case "5":
-                print("TODO Chamar o ficheiro do Troca de Mensagens")
+                print("A iniciar servidor de mensagens")
+                start_server()
             case "6":
+                print("Port Knocking")
                 knock()
             case "7":
                 password_menu()

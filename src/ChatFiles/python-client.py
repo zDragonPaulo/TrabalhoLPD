@@ -1,3 +1,10 @@
+# Paulo Abade - 23919
+# Mestrado de Engenharia de Segurança Informática
+# Iniciado em 19/10/2025
+# Última atualização: 06/02/2026
+
+# É o cliente que enviará as mensagens
+
 import socket
 import os
 import base64
@@ -14,7 +21,7 @@ CLIENT_PRIV_KEY = "client_private.pem"
 CLIENT_PUB_KEY = "client_public.pem"
 
 
-def gerar_chaves_cliente():
+def generate_client_key():
     """Gera o par de chaves RSA do cliente se não existirem."""
     if not os.path.exists(CLIENT_PRIV_KEY):
         print("[*] A gerar chaves RSA do cliente...")
@@ -177,9 +184,9 @@ def delete_server_data():
         s.connect((SERVER_IP, PORT))
         s.send(f"DEL:{MY_USERNAME}".encode())
         
-        resposta = s.recv(1024).decode()
+        answer = s.recv(1024).decode()
         s.close()
-        print(f"\n[SERVIDOR]: {resposta}")
+        print(f"\n[SERVIDOR]: {answer}")
         
        
             
@@ -187,10 +194,9 @@ def delete_server_data():
         print(f"[!] Erro ao solicitar eliminação: {e}")
 
 def client_chat_menu():
-    gerar_chaves_cliente()
+    generate_client_key()
     while True:
         print("\n" + "="*35)
-        print("   ESTIG - SEGURANÇA INFORMÁTICA")
         print("       CLIENTE DE MENSAGENS")
         print("="*35)
         print("1. Enviar Mensagem Segura")

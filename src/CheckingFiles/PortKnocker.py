@@ -23,7 +23,7 @@ def knock():
         - Flags: SYN ("S").
         - Intervalo: 1 segundo entre pacotes para integridade da sequência.
     """
-    print("\n--- Port Knocking Client ---")
+    print("\n===== Port Knocking Client =====\n")
 
     # Validação do endereço IP do alvo
     is_an_ip = False

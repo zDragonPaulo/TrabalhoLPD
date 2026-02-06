@@ -11,37 +11,70 @@ from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 
 
+# Configurações de caminhos e ficheiros
 MSG_FOLDER = "server_messages"
 CLIENT_KEYS_FOLDER = "client_keys"
 PUB_KEY_FILE = "public_key.pem"
 PRIV_KEY_FILE = "private_key.pem"
 
-# Criar pastas necessárias
+# Inicialização do ambiente de ficheiros
 for folder in [MSG_FOLDER, CLIENT_KEYS_FOLDER]:
-    if not os.path.exists(folder): os.makedirs(folder)
+    if not os.path.exists(folder): 
+        os.makedirs(folder)
 
 def decrypt_blob(encrypted_blob):
-    """Decifra usando a chave privada do servidor."""
+    """
+    Decifra um blob binário utilizando a chave privada RSA do servidor.
+
+    Args:
+        encrypted_blob (bytes): Dados cifrados recebidos via socket.
+
+    Returns:
+        bytes: Texto limpo original decifrado ou None em caso de falha.
+    """
     try:
         with open(PRIV_KEY_FILE, "rb") as f:
             private_key = serialization.load_pem_private_key(f.read(), password=None)
         
         plain_text = private_key.decrypt(
             encrypted_blob,
-            padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()), 
+                algorithm=hashes.SHA256(), 
+                label=None
+            )
         )
-        return plain_text # Retorna bytes
+        return plain_text 
     except Exception as e:
         print(f"[!] Erro na decriptação: {e}")
         return None
 
 def save_message(user, encrypted_blob):
+    """
+    Guarda uma mensagem cifrada num ficheiro binário de arquivo.
+
+    Utiliza um formato de prefixo de 4 bytes (Big Endian) para armazenar 
+    o tamanho do blob, permitindo a leitura sequencial de múltiplas mensagens.
+
+    Args:
+        user (str): Identificador do utilizador/proprietário do arquivo.
+        encrypted_blob (bytes): O conteúdo cifrado a ser persistido.
+    """
     filename = os.path.join(MSG_FOLDER, f"{user}_archive.bin")
     with open(filename, "ab") as f:
         f.write(len(encrypted_blob).to_bytes(4, 'big'))
         f.write(encrypted_blob)
 
 def start_server():
+    """
+    Inicia o loop principal do servidor TCP.
+
+    Gere os seguintes comandos do protocolo:
+        - REQ_PUBKEY: Envia a chave pública do servidor ao cliente.
+        - SEND: Recebe e armazena mensagens, associando a chave pública do cliente.
+        - GET: Realiza a re-encriptação do arquivo para a chave do cliente e envia.
+        - DEL: Remove permanentemente mensagens e chaves de um utilizador.
+    """
     generate_keys()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -52,7 +85,7 @@ def start_server():
     while True:
         client, addr = server.accept()
         try:
-            data = client.recv(16384) # Buffer maior para suportar a chave pública no meio
+            data = client.recv(16384) 
             if not data: continue
 
             msg_decoded = data.decode('utf-8', errors='ignore')
@@ -66,7 +99,6 @@ def start_server():
             # --- COMANDO: ENVIO (SEND:user:pubkey:MSG:blob) ---
             elif msg_decoded.startswith("SEND:"):
                 try:
-                    # Formato: SEND:user:PUBKEY_DATA:MSG:ENCRYPTED_BLOB
                     parts = data.split(b':', 2)
                     user = parts[1].decode()
                     sub_parts = parts[2].split(b':MSG:', 1)
@@ -74,19 +106,21 @@ def start_server():
                     client_pub_key_data = sub_parts[0]
                     encrypted_blob = sub_parts[1]
 
-                    # 1. Guardar/Atualizar chave pública do cliente
+                    # 1. Persistência da chave pública do cliente para futura re-encriptação
                     with open(os.path.join(CLIENT_KEYS_FOLDER, f"{user}.pub"), "wb") as f:
                         f.write(client_pub_key_data)
 
-                    # 2. Guardar mensagem
+                    # 2. Arquivamento da mensagem
                     save_message(user, encrypted_blob)
                     
-                    # 3. Mostrar no ecrã do servidor (Decifrado com Privada do Server)
+                    # 3. Auditoria: Decriptação para visualização local no servidor
                     conteudo = decrypt_blob(encrypted_blob)
                     if conteudo:
                         print(f"\n[MENSAGEM DE {user}]: {conteudo.decode('utf-8')}")
                 except:
                     print("[!] Erro ao processar pacote SEND.")
+
+            # --- COMANDO: REMOÇÃO (DEL:user) ---
             elif msg_decoded.startswith("DEL:"):
                 user = msg_decoded.split(":")[1].strip()
                 msg_path = os.path.join(MSG_FOLDER, f"{user}_archive.bin")
@@ -103,6 +137,7 @@ def start_server():
                     print(f"[-] Dados do utilizador {user} eliminados a pedido do cliente.")
                 else:
                     client.send("ERRO: Nenhum dado encontrado para eliminar.".encode())
+
             # --- COMANDO: DOWNLOAD COM RE-CIFRAGEM (GET:user) ---
             elif msg_decoded.startswith("GET:"):
                 user = msg_decoded.split(":")[1].strip()
@@ -112,7 +147,6 @@ def start_server():
                 if os.path.exists(filename) and os.path.exists(pub_client_path):
                     print(f"[*] A re-cifrar arquivo para {user}...")
                     
-                    # Carregar chave pública do cliente
                     with open(pub_client_path, "rb") as f:
                         client_pub_key = serialization.load_pem_public_key(f.read())
                     
@@ -127,30 +161,47 @@ def start_server():
                             # Decifra com a chave do SERVIDOR
                             raw_msg = decrypt_blob(blob_server)
                             
-                            # Volta a cifrar com a chave do CLIENTE
-                            blob_client = client_pub_key.encrypt(
-                                raw_msg,
-                                padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
-                            )
-                            re_encrypted_archive += len(blob_client).to_bytes(4, 'big') + blob_client
+                            # Re-cifra com a chave do CLIENTE (Proxy Re-encryption)
+                            if raw_msg:
+                                blob_client = client_pub_key.encrypt(
+                                    raw_msg,
+                                    padding.OAEP(
+                                        mgf=padding.MGF1(hashes.SHA256()), 
+                                        algorithm=hashes.SHA256(), 
+                                        label=None
+                                    )
+                                )
+                                re_encrypted_archive += len(blob_client).to_bytes(4, 'big') + blob_client
                     
                     client.sendall(re_encrypted_archive)
                 else:
                     client.send(b"ERRO:Arquivo ou Chave nao encontrados")
 
         except Exception as e:
-            print(f"[!] Erro: {e}")
+            print(f"[!] Erro no processamento: {e}")
         finally:
             client.close()
 
 def generate_keys():
+    """
+    Gera o par de chaves RSA do servidor caso não existam ficheiros PEM.
+    
+    Cria uma chave de 2048 bits utilizando o expoente público padrão (65537).
+    """
     if not os.path.exists(PRIV_KEY_FILE):
         private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         with open(PRIV_KEY_FILE, "wb") as f:
-            f.write(private_key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption()))
+            f.write(private_key.private_bytes(
+                serialization.Encoding.PEM, 
+                serialization.PrivateFormat.PKCS8, 
+                serialization.NoEncryption()
+            ))
         with open(PUB_KEY_FILE, "wb") as f:
-            f.write(private_key.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo))
-        print("[+] Chaves do Servidor geradas.")
+            f.write(private_key.public_key().public_bytes(
+                serialization.Encoding.PEM, 
+                serialization.PublicFormat.SubjectPublicKeyInfo
+            ))
+        print("[+] Chaves do Servidor geradas com sucesso.")
 
 #if __name__ == "__main__":
 #    generate_keys()

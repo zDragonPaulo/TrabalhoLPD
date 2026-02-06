@@ -13,21 +13,24 @@ from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-
-SERVER_IP = "192.168.1.86"  # IP do teu Kali
+# Configurações do Servidor
+SERVER_IP = "192.168.1.86"  
 PORT = 9999
 MY_USERNAME = "paulo_abade"
 CLIENT_PRIV_KEY = "client_private.pem"
 CLIENT_PUB_KEY = "client_public.pem"
 
-
 def generate_client_key():
-    """Gera o par de chaves RSA do cliente se não existirem."""
+    """
+    Gera o par de chaves RSA (Pública e Privada) do cliente se não existirem no disco.
+    
+    A chave privada é guardada sem cifragem (NoEncryption) para facilitar a automação,
+    e a chave pública é exportada no formato SubjectPublicKeyInfo para partilha.
+    """
     if not os.path.exists(CLIENT_PRIV_KEY):
         print("[*] A gerar chaves RSA do cliente...")
         private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         
-        # Guardar Chave Privada
         with open(CLIENT_PRIV_KEY, "wb") as f:
             f.write(private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
@@ -35,7 +38,6 @@ def generate_client_key():
                 encryption_algorithm=serialization.NoEncryption()
             ))
         
-        # Guardar Chave Pública
         public_key = private_key.public_key()
         with open(CLIENT_PUB_KEY, "wb") as f:
             f.write(public_key.public_bytes(
@@ -45,7 +47,12 @@ def generate_client_key():
         print("[+] Chaves do Cliente criadas com sucesso.")
 
 def get_server_public_key():
-    """Handshake: Pede a chave pública ao servidor via Socket."""
+    """
+    Realiza o handshake com o servidor para obter a sua chave pública.
+    
+    Returns:
+        str: Caminho do ficheiro temporário com a chave do servidor ou None em caso de erro.
+    """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
@@ -64,7 +71,16 @@ def get_server_public_key():
         return None
 
 def encrypt_message(message, pub_key_path):
-    """Cifra uma string usando a chave pública fornecida."""
+    """
+    Cifra uma string utilizando RSA com padding OAEP.
+    
+    Args:
+        message (str): O texto limpo a cifrar.
+        pub_key_path (str): Caminho para o ficheiro .pem da chave pública de destino.
+        
+    Returns:
+        bytes: O conteúdo cifrado resultante.
+    """
     with open(pub_key_path, "rb") as f:
         pub_key = serialization.load_pem_public_key(f.read())
     
@@ -78,10 +94,13 @@ def encrypt_message(message, pub_key_path):
     )
     return encrypted
 
-
 def send_secure_msg():
+    """
+    Fluxo de envio de mensagem segura. Obtém a chave do servidor, cifra a mensagem
+    e envia o pacote contendo o identificador do utilizador e a sua própria chave pública.
+    """
     msg = input("\nDigite a mensagem: ")
-    pub_key_path = get_server_public_key() # Cifra sempre para o servidor ler
+    pub_key_path = get_server_public_key() 
 
     if pub_key_path:
         encrypted_msg = encrypt_message(msg, pub_key_path)
@@ -93,6 +112,7 @@ def send_secure_msg():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((SERVER_IP, PORT))
             header = f"SEND:{MY_USERNAME}:".encode()
+            # Envia [Comando/User] + [Minha Chave Pública] + [Delimitador] + [Mensagem Cifrada]
             s.send(header + my_pub_key + b":MSG:" + encrypted_msg)
             s.close()
             print("[+] Mensagem enviada! O servidor guardou e associou à tua chave.")
@@ -100,7 +120,12 @@ def send_secure_msg():
             print(f"[!] Erro no envio: {e}")
 
 def decrypt_local_archive():
-    """Lê o arquivo .bin e decifra usando a chave privada do cliente."""
+    """
+    Processa e decifra o arquivo binário descarregado do servidor.
+    
+    Lê o ficheiro binário sequencialmente, extraindo o tamanho de cada blob cifrado
+    e utilizando a chave privada local para recuperar o texto original.
+    """
     filename = "my_downloaded_archive.bin"
     if not os.path.exists(filename):
         print("[!] Erro: Arquivo de arquivo não encontrado.")
@@ -113,7 +138,7 @@ def decrypt_local_archive():
         print(f"\n--- MENSAGENS NO ARQUIVO ({MY_USERNAME}) ---")
         with open(filename, "rb") as f:
             while True:
-                size_bytes = f.read(4) # Lê o header de tamanho
+                size_bytes = f.read(4) 
                 if not size_bytes: break
                 
                 size = int.from_bytes(size_bytes, 'big')
@@ -132,7 +157,10 @@ def decrypt_local_archive():
         print(f"[!] Erro ao processar arquivo: {e}")
 
 def download_messages():
-    """Descarrega o arquivo binário do servidor."""
+    """
+    Descarrega o histórico de mensagens do servidor. O servidor é responsável
+    por decifrar o histórico com a sua chave e re-cifrá-lo com a chave deste cliente.
+    """
     try:
         print(f"[*] A solicitar arquivo de {MY_USERNAME} ao servidor...")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -160,7 +188,12 @@ def download_messages():
         print(f"[!] Erro na ligação: {e}")
 
 def export_backup_aes():
-    """Requisito: Exportação/Backup com chave simétrica."""
+    """
+    Realiza o backup de um texto para um ficheiro encriptado simetricamente (AES-256).
+    
+    Utiliza PBKDF2 para derivar uma chave segura a partir de uma password definida 
+    pelo utilizador, aplicando um salt estático.
+    """
     password = input("Define a password para este backup: ")
     salt = b'salt_estatico_projeto'
     kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
@@ -173,8 +206,12 @@ def export_backup_aes():
     with open("backup_mensagens.bak", "wb") as f:
         f.write(cifrado)
     print(f"[+] Backup gerado: backup_mensagens.bak (Cifrado com AES)")
+
 def delete_server_data():
-    """Solicita ao servidor a eliminação de todas as mensagens e chaves do utilizador."""
+    """
+    Envia um pedido de remoção definitiva de todos os dados do utilizador no servidor.
+    Isto inclui o histórico de mensagens e a chave pública armazenada.
+    """
     confirm = input(f"\n[!] Tem a certeza que deseja apagar TODAS as mensagens de '{MY_USERNAME}' no servidor? (s/n): ")
     if confirm.lower() != 's':
         return
@@ -187,13 +224,14 @@ def delete_server_data():
         answer = s.recv(1024).decode()
         s.close()
         print(f"\n[SERVIDOR]: {answer}")
-        
-       
             
     except Exception as e:
         print(f"[!] Erro ao solicitar eliminação: {e}")
 
 def client_chat_menu():
+    """
+    Loop principal que gere a interface de texto do cliente.
+    """
     generate_client_key()
     while True:
         print("\n" + "="*35)

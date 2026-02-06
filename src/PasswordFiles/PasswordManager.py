@@ -11,15 +11,26 @@ import os
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
-# --- CONFIGURAÇÕES INICIAIS ---
+# --- CONFIGURAÇÕES DE CAMINHOS ---
 DB_NAME = "./PasswordFiles/passwords.db"
 PRIVATE_KEY_PATH = "./PasswordFiles/private_key.pem"
 PUBLIC_KEY_PATH = "./PasswordFiles/public_key.pem"
 OTP_SECRET_PATH = "./PasswordFiles/otp_secret.txt"
 
+# Garantir que a diretoria de ficheiros existe
+if not os.path.exists("./PasswordFiles"):
+    os.makedirs("./PasswordFiles")
+
 def setup():
-    """Gera chaves e base de dados se não existirem."""
+    """
+    Inicializa o ambiente de segurança do gestor.
+    
+    Gera o par de chaves RSA se inexistente, configura o segredo TOTP para 
+    o segundo fator de autenticação e cria a estrutura de tabelas no SQLite.
+    O QR Code para configuração da app móvel é gerado automaticamente no primeiro setup.
+    """
     if not os.path.exists(PRIVATE_KEY_PATH):
+        print("[*] Configuração inicial: A gerar chaves e segredo 2FA...")
         # Gerar RSA
         private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         with open(PRIVATE_KEY_PATH, "wb") as f:
@@ -36,16 +47,16 @@ def setup():
                 format=serialization.PublicFormat.SubjectPublicKeyInfo
             ))
 
-        # Gerar 2FA
+        # Gerar 2FA (TOTP)
         secret = pyotp.random_base32()
         with open(OTP_SECRET_PATH, "w") as f:
             f.write(secret)
         
         uri = pyotp.totp.TOTP(secret).provisioning_uri(name="Paulo Abade", issuer_name="GestorDePasswords")
         qrcode.make(uri).save("./PasswordFiles/2fa_qr.png")
-        print("[!] Setup inicial concluído. QR Code gerado em '2fa_qr.png'.")
+        print("[!] Setup concluído. Configure o 2FA lendo o ficheiro '2fa_qr.png'.")
 
-    # Criar Tabela SQLite
+    # Criar Tabela SQLite (Campos sensíveis como BLOB para guardar bytes cifrados)
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS credentials 
@@ -53,16 +64,25 @@ def setup():
     conn.commit()
     conn.close()
 
-# --- FUNÇÕES DE CRIPTOGRAFIA ---
 def load_public_key():
+    """Carrega a chave pública do disco para operações de cifragem."""
     with open(PUBLIC_KEY_PATH, "rb") as f:
         return serialization.load_pem_public_key(f.read())
 
 def load_private_key():
+    """Carrega a chave privada do disco para operações de decifragem."""
     with open(PRIVATE_KEY_PATH, "rb") as f:
         return serialization.load_pem_private_key(f.read(), password=None)
 
 def encrypt_data(data):
+    """
+    Cifra uma string de texto limpo utilizando RSA-OAEP.
+    
+    Args:
+        data (str): Texto a ser protegido.
+    Returns:
+        bytes: Dados cifrados binários.
+    """
     pub_key = load_public_key()
     return pub_key.encrypt(
         data.encode(),
@@ -70,22 +90,36 @@ def encrypt_data(data):
     )
 
 def decrypt_data(cipher_text):
+    """
+    Decifra dados binários para recuperar o texto original.
+    
+    Args:
+        cipher_text (bytes): Dados recuperados da base de dados.
+    Returns:
+        str: Texto limpo decifrado.
+    """
     priv_key = load_private_key()
     return priv_key.decrypt(
         cipher_text,
         padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
     ).decode()
 
-# --- LÓGICA DE 2FA ---
 def authenticate():
+    """
+    Valida a identidade do utilizador através de um token TOTP.
+    
+    Returns:
+        bool: True se o código estiver correto e dentro da janela temporal.
+    """
+    if not os.path.exists(OTP_SECRET_PATH): return False
     with open(OTP_SECRET_PATH, "r") as f:
         secret = f.read()
     totp = pyotp.TOTP(secret)
-    token = input("\n[?] Insira o código 2FA: ")
+    token = input("\n[?] Insira o código 2FA do seu dispositivo: ")
     return totp.verify(token)
 
-# --- OPERAÇÕES CRUD ---
 def add_credential():
+    """Interage com o utilizador para cifrar e guardar uma nova credencial no SQLite."""
     url = input("URL: ")
     user = input("Username: ")
     pw = input("Password: ")
@@ -96,11 +130,12 @@ def add_credential():
                    (encrypt_data(url), encrypt_data(user), encrypt_data(pw)))
     conn.commit()
     conn.close()
-    print("[+] Registo guardado com sucesso (encriptado)!")
+    print("[+] Registo guardado com sucesso (encriptado em repouso)!")
 
 def list_credentials():
+    """Lista todas as credenciais após validação 2FA bem-sucedida."""
     if not authenticate():
-        print("[!] Erro: Código 2FA inválido.")
+        print("[!] Erro: Autenticação Multi-fator falhou.")
         return
 
     conn = sqlite3.connect(DB_NAME)
@@ -109,21 +144,22 @@ def list_credentials():
     rows = cursor.fetchall()
     
     print(f"\n{'ID':<5} | {'URL':<20} | {'User':<20} | {'Password'}")
-    print("-" * 70)
+    print("-" * 75)
     for row in rows:
-        print(f"{row[0]:<5} | {decrypt_data(row[1]):<20} | {decrypt_data(row[2]):<20} | {decrypt_data(row[3])}")
+        try:
+            print(f"{row[0]:<5} | {decrypt_data(row[1]):<20} | {decrypt_data(row[2]):<20} | {decrypt_data(row[3])}")
+        except:
+            print(f"{row[0]:<5} | [Erro na decifragem do registo]")
     conn.close()
 
 def update_credential():
+    """Atualiza campos específicos de um registo após validação 2FA."""
     if not authenticate():
-        print("[!] Erro: Código 2FA inválido.")
+        print("[!] Erro: Acesso negado.")
         return
 
     try:
-        id_register = int(input("\nInsira o ID do registo que deseja atualizar: "))
-        
-        # O utilizador pode querer mudar apenas a password ou tudo
-        print("O que deseja atualizar?")
+        id_register = int(input("\nID do registo a atualizar: "))
         print("1. URL | 2. Username | 3. Password | 4. Tudo")
         answer = input("Opção: ")
 
@@ -147,53 +183,50 @@ def update_credential():
         conn.commit()
         if cursor.rowcount > 0:
             print(f"[+] Registo {id_register} atualizado com sucesso!")
-        else:
-            print("[!] Erro: ID não encontrado.")
         conn.close()
-
     except ValueError:
-        print("[!] Erro: Insira um ID numérico válido.")
+        print("[!] Erro: Input inválido.")
 
 def delete_credential():
+    """Remove permanentemente um registo da base de dados após validação 2FA."""
     if not authenticate():
-        print("[!] Erro: Código 2FA inválido.")
+        print("[!] Erro: Acesso negado.")
         return
 
     try:
-        id_register = int(input("\nInsira o ID do registo que deseja apagar: "))
-        confirmar = input(f"Tem a certeza que deseja apagar o registo {id_register}? (s/n): ")
+        id_register = int(input("\nID do registo a apagar: "))
+        confirmar = input(f"Tem a certeza que deseja eliminar o registo {id_register}? (s/n): ")
         
         if confirmar.lower() == 's':
             conn = sqlite3.connect(DB_NAME)
             cursor = conn.cursor()
             cursor.execute("DELETE FROM credentials WHERE id = ?", (id_register,))
             conn.commit()
-            if cursor.rowcount > 0:
-                print(f"[+] Registo {id_register} apagado com sucesso.")
-            else:
-                print("[!] ID não encontrado.")
+            print(f"[+] Registo {id_register} eliminado.")
             conn.close()
     except ValueError:
-        print("[!] Erro: Insira um ID válido.")
+        print("[!] Erro: ID inválido.")
 
 def password_menu():
+    """Interface principal do Gestor de Passwords."""
     setup()
     while True:
-        print("\n===== Gestão de Passwords =====\n")
-        print("1. Criar Registo\n")
-        print("2. Listar Registos (Requer 2FA)\n")
-        print("3. Atualizar Registo (Requer 2FA)\n")
-        print("4. Eliminar Registo (Requer 2FA)\n")
-        print("0. Sair\n")
-        option = input("Escolha uma opção: ")
-        if option == "1": 
-            add_credential()
-        elif option == "2": 
-            list_credentials()
-        elif option == "3":
-            update_credential()
-        elif option == "4":
-            delete_credential()
-        elif option == "0": 
-            break
-        else: print("Opção inválida.")
+        print("\n" + "="*30)
+        print("   GESTOR SEGURO DE PASSWORDS")
+        print("="*30)
+        print("1. Criar Registo")
+        print("2. Listar Registos (Requer 2FA)")
+        print("3. Atualizar Registo (Requer 2FA)")
+        print("4. Eliminar Registo (Requer 2FA)")
+        print("0. Sair")
+        
+        option = input("\nEscolha uma opção: ")
+        if option == "1": add_credential()
+        elif option == "2": list_credentials()
+        elif option == "3": update_credential()
+        elif option == "4": delete_credential()
+        elif option == "0": break
+        else: print("[!] Opção inválida.")
+
+if __name__ == "__main__":
+    password_menu()

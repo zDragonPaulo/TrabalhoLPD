@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  6 FEB 2026 15:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  6 FEB 2026 16:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1068,14 +1068,14 @@ Package pdftex.def Info: Recursos/PortKnocking.png  used on input line 261.
 
 
 [4 <./Recursos/Syn_Attack.png (PNG copy)> <./Recursos/PortKnocking.png (PNG copy)>]
-<Recursos/menu.png, id=144, 497.86pt x 336.25626pt>
+<Recursos/menu.png, id=144, 488.82625pt x 493.845pt>
 File: Recursos/menu.png Graphic file (type png)
 <use Recursos/menu.png>
 Package pdftex.def Info: Recursos/menu.png  used on input line 278.
-(pdftex.def)             Requested size: 292.77629pt x 197.74298pt.
+(pdftex.def)             Requested size: 292.77629pt x 295.78932pt.
 
 
-[5 <./Recursos/menu.png>]
+[5 <./Recursos/menu.png (PNG copy)>]
 
 [6]
 
@@ -1103,9 +1103,9 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  99i,7n,105p,812b,2805s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1728.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk>
-Output written on Relatorio.pdf (12 pages, 524640 bytes).
+Output written on Relatorio.pdf (12 pages, 538969 bytes).
 PDF statistics:
- 480 PDF objects out of 1000 (max. 8388607)
+ 478 PDF objects out of 1000 (max. 8388607)
  33 named destinations out of 1000 (max. 500000)
  152 words of extra memory for PDF output out of 10000 (max. 10000000)
 

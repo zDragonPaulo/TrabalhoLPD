@@ -1,0 +1,79 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\geometry{margin=2.5cm}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!5}
+}
+
+\title{Manual de Instruções: Suíte de Segurança Informática}
+\author{Paulo Abade - 23919}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Pré-requisitos}
+Para a correta execução desta suíte, o ambiente deve garantir os seguintes componentes:
+\begin{itemize}
+    \item \textbf{Sistema Operativo Recomendado:} Kali Linux
+    \item \textbf{Python:} Versão 3.10 ou superior.
+    \item \textbf{Dependências de Sistema:} Binário do \texttt{nmap}, \texttt{rsyslog} e \texttt{apache2} ativos no servidor.
+\end{itemize}
+
+\section{Instalação}
+\subsection{Configuração Automática (Linux)}
+O projeto inclui um script de automação para instalação de todas as bibliotecas Python necessárias (\texttt{cryptography}, \texttt{scapy}, \texttt{pyotp}, etc.).
+\begin{lstlisting}[language=bash]
+chmod +x install_deps.sh
+./install_deps.sh
+\end{lstlisting}
+
+
+\section{Configuração do Servidor de Chat}
+\begin{enumerate}
+    \item No ficheiro \texttt{python-client.py}, altere a variável \texttt{SERVER\_IP} para o IP do seu servidor.
+    \item Garanta que a porta \texttt{9999} está aberta na firewall do servidor:
+    \begin{lstlisting}[language=bash]
+    sudo ufw allow 9999/tcp
+    \end{lstlisting}
+\end{enumerate}
+
+\section{Guia de Utilização}
+O sistema é gerido através de um menu centralizado. Execute:
+\begin{lstlisting}[language=bash]
+python menu_cli.py
+\end{lstlisting}
+
+\subsection{Funcionalidades Principais}
+\begin{itemize}
+    \item \textbf{Opção 1 (Port Scan):} Insira o IP alvo e o intervalo de portas para auditoria.
+    \item \textbf{Opção 2 (DoS Attack):} Forneça o IP alvo e o sistema sobrecarregará todas as portas TCP com pacotes.
+    \item \textbf{Opção 3 (SYN Flood):} Forneça o IP alvo e a porta para um ataque de inundação SYN. 
+    \item \textbf{Opção 4 (Análise de Logs):} Requer que a base de dados \texttt{GeoLite2-City.mmdb} esteja na pasta \texttt{CheckingFiles}.
+    \item \textbf{Opção 5 (Servidor de Chat):} Deve ser iniciada no servidor antes de qualquer tentativa de ligação do cliente.
+    \item \textbf{Opção 6 (Port Knocking):} Configure a sequência de portas e o IP do servidor para ativação.
+    \item \textbf{Opção 7 (Gestor de Passwords):} No primeiro acesso, será gerado um ficheiro \texttt{2fa\_qr.png}. Leia este código com o Microsoft Authenticator 
+    e/ou outra aplicação equivalente.
+\end{itemize}
+
+\section{Resolução de Problemas}
+\begin{itemize}
+    \item \textbf{Erro de Permissão (Scapy):} As opções de SYN Flood e Port Knocking requerem privilégios de administrador (\texttt{sudo python menu\_cli.py}).
+    \item \textbf{Erro de Ficheiro:} Utilize a configuração inicial para garantir que os caminhos dos ficheiros estão corretos e que as dependências 
+    estão instaladas.
+\end{itemize}
+
+\end{document}

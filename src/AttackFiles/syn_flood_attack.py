@@ -44,7 +44,6 @@ def syn_attack():
 
     # Validação do número da porta de destino
     isnumber = False
-    target_port = 80
     while not isnumber:
         try:
             target_port = int(input("Insira uma porta válida entre 0 e 65535 (ex: 80, 443, etc...): \n"))

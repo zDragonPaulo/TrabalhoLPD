@@ -1,7 +1,7 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 19/10/2025
-# Última atualização: 21/10/2025
+# Última atualização: 06/02/2026
 
 # Faz um ataque de SYN Flood a um IP e a uma porta que tenham sido especificados pelo utilizador
 # Foi seguido o tutorial de: https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python

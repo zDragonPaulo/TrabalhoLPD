@@ -1,7 +1,7 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 19/10/2025
-# Última atualização: 24/01/2026
+# Última atualização: 06/02/2026
 # Password Manager
 
 import sqlite3

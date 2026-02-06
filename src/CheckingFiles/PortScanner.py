@@ -1,7 +1,7 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 29/10/2025
-# Última atualização: 29/10/2025
+# Última atualização: 06/02/2026
 
 import nmap
 import ipaddress

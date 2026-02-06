@@ -1,7 +1,7 @@
 # Paulo Abade - 23919
 # Mestrado de Engenharia de Segurança Informática
 # Iniciado em 19/10/2025
-# Última atualização: 30/01/2026
+# Última atualização: 06/02/2026
 # Log Reporter
 
 # Foi necessário instalar o rsyslog, e ativar o apache2
@@ -13,12 +13,6 @@ import os
 from fpdf import FPDF
 import csv
 from datetime import datetime
-Excelente, Paulo. Este é o módulo de Auditoria e Geo-Inteligência. No Mestrado, esta parte é crucial porque transforma dados brutos (logs) em informação acionável (Inteligência de Ameaças).
-
-Aqui tens o código completo e documentado para o pdoc, com explicações técnicas sobre as expressões regulares (Regex) e o enriquecimento de dados via GeoIP.
-
-Módulo de Análise de Logs e Relatórios (analyzer.py)
-Python
 
 """
 Módulo de Auditoria de Segurança, Geo-Localização e Reporte.

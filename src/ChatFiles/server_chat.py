@@ -1,3 +1,10 @@
+# Paulo Abade - 23919
+# Mestrado de Engenharia de Segurança Informática
+# Iniciado em 19/10/2025
+# Última atualização: 06/02/2026
+
+# É o servidor de troca de mensagens
+
 import socket
 import os
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
@@ -35,6 +42,7 @@ def save_message(user, encrypted_blob):
         f.write(encrypted_blob)
 
 def start_server():
+    generate_keys()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind(('0.0.0.0', 9999))
@@ -135,7 +143,7 @@ def start_server():
         finally:
             client.close()
 
-def gerar_chaves():
+def generate_keys():
     if not os.path.exists(PRIV_KEY_FILE):
         private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         with open(PRIV_KEY_FILE, "wb") as f:
@@ -144,6 +152,6 @@ def gerar_chaves():
             f.write(private_key.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo))
         print("[+] Chaves do Servidor geradas.")
 
-if __name__ == "__main__":
-    gerar_chaves()
-    start_server()
+#if __name__ == "__main__":
+#    generate_keys()
+#    start_server()

@@ -125,21 +125,21 @@ def update_credential():
         # O utilizador pode querer mudar apenas a password ou tudo
         print("O que deseja atualizar?")
         print("1. URL | 2. Username | 3. Password | 4. Tudo")
-        escolha = input("Opção: ")
+        answer = input("Opção: ")
 
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
 
-        if escolha == "1":
+        if answer == "1":
             new_info = input("Novo URL: ")
             cursor.execute("UPDATE credentials SET url = ? WHERE id = ?", (encrypt_data(new_info), id_register))
-        elif escolha == "2":
+        elif answer == "2":
             new_info = input("Novo Username: ")
             cursor.execute("UPDATE credentials SET user = ? WHERE id = ?", (encrypt_data(new_info), id_register))
-        elif escolha == "3":
+        elif answer == "3":
             new_info = input("Nova Password: ")
             cursor.execute("UPDATE credentials SET password = ? WHERE id = ?", (encrypt_data(new_info), id_register))
-        elif escolha == "4":
+        elif answer == "4":
             u, us, p = input("Novo URL: "), input("Novo User: "), input("Nova Pass: ")
             cursor.execute("UPDATE credentials SET url=?, user=?, password=? WHERE id=?", 
                            (encrypt_data(u), encrypt_data(us), encrypt_data(p), id_register))
@@ -179,21 +179,21 @@ def delete_credential():
 def password_menu():
     setup()
     while True:
-        print("\n--- Gestão de Passwords ---")
-        print("1. Criar Registo")
-        print("2. Listar Registos (Requer 2FA)")
-        print("3. Atualizar Registo (Requer 2FA)")
-        print("4. Eliminar Registo (Requer 2FA)")
-        print("0. Sair")
-        opcao = input("Escolha uma opção: ")
-        if opcao == "1": 
+        print("\n===== Gestão de Passwords =====\n")
+        print("1. Criar Registo\n")
+        print("2. Listar Registos (Requer 2FA)\n")
+        print("3. Atualizar Registo (Requer 2FA)\n")
+        print("4. Eliminar Registo (Requer 2FA)\n")
+        print("0. Sair\n")
+        option = input("Escolha uma opção: ")
+        if option == "1": 
             add_credential()
-        elif opcao == "2": 
+        elif option == "2": 
             list_credentials()
-        elif opcao == "3":
+        elif option == "3":
             update_credential()
-        elif opcao == "4":
+        elif option == "4":
             delete_credential()
-        elif opcao == "0": 
+        elif option == "0": 
             break
         else: print("Opção inválida.")

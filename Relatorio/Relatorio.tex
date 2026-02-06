@@ -59,12 +59,12 @@
         \large\textbf{INSTITUTO POLITÉCNICO DE BEJA} \\
         \large\textbf{Escola Superior de Tecnologia e Gestão} \\
         \large\textbf{Mestrado em Engenharia de Segurança Informática} \\
-        \large\textbf{Linguagens de Programação Informática} \\
+        \large\textbf{Linguagens de Programação Dinâmicas} \\
         
         \vspace{2cm}
         
         % Título do projeto
-        {\Huge \textbf{Caso 1}} \\
+        {\Huge \textbf{Trabalho de Python}} \\
         
         \vspace{1.5cm}
         
@@ -82,7 +82,7 @@
         \vspace{1cm}
         
         % Local e data
-        {\large Beja, outubro de 2025}
+        {\large Beja, fevereiro de 2026}
     \end{titlepage}
 }
 
@@ -95,12 +95,12 @@
         \large\textbf{INSTITUTO POLITÉCNICO DE BEJA} \\
         \large\textbf{Escola Superior de Tecnologia e Gestão} \\
         \large\textbf{Mestrado em Engenharia de Segurança Informática} \\
-        \large\textbf{Linguagens de Programação Informática} \\
+        \large\textbf{Linguagens de Programação Dinâmicas} \\
         
         \vspace{2cm}
         
         % Título do projeto
-        {\Huge \textbf{Caso 1}} \\
+        {\Huge \textbf{Trabalho de Python}} \\
         
         \vspace{1.5cm}
         
@@ -115,7 +115,7 @@
         \vfill
         
         % Local e data
-        {\large Beja, outubro de 2025}
+        {\large Beja, fevereiro de 2026}
     \end{titlepage}
 }
 
@@ -182,54 +182,124 @@ testado em um ambiente controlado, onde havia permissão para realizar os ataque
 \subsection{Análise dos Requisitos}
 Para a realização deste trabalho prático, foi primeiro necessário compreender tudo o que estava a ser pedido para realizar o trabalho, 
 sendo analisado nas próximas secções os temas mais teóricos que necessitaram de ser aprofundados para ser possível a sua implementação.
+
+Sendo assim, o que será feito neste trabalho é:
+\begin{itemize}
+    \item Implementar um menu em linha de comandos para permitir ao utilizador escolher qual funcionalidade deseja utilizar.
+    \item Implementar a funcionalidade de Port Scanning, vendo quais portas estão abertas, fechadas ou filtradas em um sistema de rede.
+    \item Implementar a funcionalidade de DoS Attack, enviando uma grande quantidade de tráfego para um alvo, através do protocolo UDP, 
+    para sobrecarregar o sistema alvo.
+    \item Implementar a funcionalidade de Syn Flood Attack, enviando uma grande quantidade de pacotes SYN para um alvo, sem completar o 
+    handshake, para sobrecarregar o router do sistema alvo.
+    \newpage
+    \item Implementar a funcionalidade de análise de logs, para analisar ficheiros de log do ssh e do http, e serão criados relatórios 
+    em pdf e csv para estes. O relatório irá conter informações sobre a data e hora dos eventos, o endereço IP de origem, o tipo de evento e 
+    uma breve descrição do evento e caso seja possível, o país e cidade de origem do endereço IP.  Para isso, serão utilizadas as bibliotecas 
+    \textit{\textbf{geolite2}} para obter a localização geográfica dos endereços IP, \textit{\textbf{FPDF}} para criar os relatórios em pdf e 
+    \textit{\textbf{csv}} para criar os relatórios em csv.
+    \item Implementar a funcionalidade de troca de mensagens encriptadas entre um cliente e um servidor, utilizando o protocolo TCP para a 
+    comunicação entre ambos, e utilizando a biblioteca \textit{\textbf{cryptography}} do Python para a encriptação e desencriptação das 
+    mensagens. O objetivo será para um arquivamento seguro das mensagens, onde apenas o cliente e o servidor terão acesso ao conteúdo das 
+    mensagens.
+    \item Implementar a funcionalidade de Port Knocking, onde o cliente irá enviar uma sequência específica de pacotes para portas fechadas em um 
+    sistema, e quando a sequência correta for recebida, o sistema irá adicionar o endereço IP do remetente a uma lista de permissões temporária, 
+    permitindo o acesso ao dispositivo. Será utilizado um servidor Alma Linux 8.10 para testar esta funcionalidade, pois já havia sido 
+    trabalhado com este sistema operativo na Licentiatura em Engenharia Informática com esta funcionalidade, sendo assim mais fácil de 
+    reutilizar o servidor já configurado para esta funcionalidade.
+    \item Implementar a funcionalidade de gestão de passwords, onde o utilizador poderá criar, ler, atualizar e eliminar passwords de 
+    forma segura, utilizando a biblioteca \textit{\textbf{cryptography}} do Python para encriptar as passwords antes de as armazenar em 
+    uma base de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las. Para tornar isto seguro, é 
+    necessário utilizar a biblioteca \textit{\textbf{pyotp}} que faz uma autenticação de dois fatores, onde o utilizador terá que 
+    fornecer um código gerado por uma aplicação de autenticação, como o Microsoft Authenticator, para poder acessar às passwords 
+    armazenadas na base de dados. Para facilitar a utilização desta funcionalidade, será criado um QR code utilizando a biblioteca 
+    \textit{\textbf{qrcode}} do Python, para que seja rápido de conectar à aplicação de autenticação, sem precisar de digitar o código 
+    manualmente.
+\end{itemize}
+\newpage
+\subsection{Explicação Teórica de alguns temas}
 \subsubsection{Port Scanning}
 O Port Scanning é uma técnica utilizada para identificar quais portas estão abertas, a escutar ou fechadas em um sistema de rede. Um exemplo 
 de ferramenta popular para realizar Port Scanning é o Nmap (Network Mapper), como mostrado na Figura \ref{fig:nmap_port_scanning}. O Nmap pode 
 ser utilizado para descobrir hosts e serviços em uma rede, criando um "mapa" da rede.
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{Recursos/Nmap.png}
-    \caption{Exemplo de Port Scanning com Nmap}
+    \includegraphics[width=0.5\textwidth]{Recursos/Nmap.png}
+    \caption{O Nmap é uma ferramente popular para realizar Port Scanning}
     \label{fig:nmap_port_scanning}
+
+
 \end{figure}
 \subsubsection{DoS Attack}
 Um DoS (Denial of Service) Attack é um ataque que tem o objetivo de tornar um serviço indisponível para um ou mais utilizadores. Isso é 
 feito através do envio de uma grande quantidade de tráfego para o alvo, através do protocolo UDP, já que este não espera uma resposta, o que facilita a
 sobrecarga do sistema alvo. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Recursos/DoS_Attack.png}
+    \caption{Exemplo de um DoS Attack, onde o atacante envia uma grande quantidade de tráfego para o alvo, sobrecarregando o sistema alvo}
+    \label{fig:dos_attack}  
+    
+\end{figure}
+\newpage
+
 \subsubsection{Syn Flood Attack}
 Um Syn Flood Attack é um tipo de ataque que explora o processo de handshake do protocolo TCP. O atacante envia uma grande quantidade de pacotes 
 SYN para o alvo, mas nunca completa o handshake, o que leva o sistema a ficar sobrecarregado com conexões half-open. Isto pode resultar 
 na indisponibilidade do serviço para os utilizadores.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Recursos/Syn_Attack.png}
+    \caption{Exemplo de um Syn Flood Attack, onde o atacante envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshake, sobrecarregando o sistema alvo}
+    \label{fig:syn_flood_attack}
+\end{figure}
 \subsubsection{Port Knocking}
 O Port Knocking é uma técnica de segurança que envolve o envio de uma sequência específica de pacotes para portas fechadas em um sistema. 
 Quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o 
 acesso ao dispositivo.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Recursos/PortKnocking.png}
+    \caption{Exemplo de Port Knocking, onde o cliente envia uma sequência específica de pacotes para portas fechadas em um sistema, e quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o acesso ao dispositivo}
+    \label{fig:port_knocking}
+\end{figure}
+\newpage
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Desenvolvimento}\label{desenvolvimento}
 
 Nesta secção será apresentado o desenvolvimento do trabalho prático, com a 
 explicação de cada uma das funcionalidades implementadas.
+\subsection{Menu}
+Foi criado um simples menu em linha de comandos para permitir ao utilizador escolher qual funcionalidade deseja utilizar. O menu é apresentado em um loop,
+permitindo ao utilizador escolher várias funcionalidades sem precisar reiniciar o programa. O menu é implementado utilizando a função de 
+\textit{match case} do Python, que é equivalente a um switch case em outras linguagens de programação, e é uma forma simples e eficiente de 
+lidar com múltiplas opções de escolha.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/menu.png}
+    \caption{Exemplo do Menu em Linha de Comandos}
+    \label{fig:menu_cli}
+\end{figure}
 \subsection{Port Scanner}
 A funcionalidade de Port Scanning foi implementada utilizando a biblioteca \textit{\textbf{nmap}} 
 do Python. Esta biblioteca permite a realização de varreduras de portas de forma simples e eficiente. O código pede 
 ao utilizador um endereço IPv4, e em seguida pede um intervalo de portas a serem escaneadas. O resultado do escaneamento 
 é apresentado ao utilizador, mostrando quais portas estão abertas, fechadas ou filtradas.
 \subsection{DoS Attack}
-A funcionalidade de DoS Attack foi implementada utilizando a biblioteca \textit{\textbf{scapy}} do Python. Esta biblioteca 
+A funcionalidade de DoS Attack foi implementada utilizando a biblioteca \textit{\textbf{Sockets}} do Python. Esta biblioteca 
 permite a criação e envio de pacotes de rede de forma flexível. O código pede ao utilizador um endereço IPv4 alvo, e em 
 seguida pede a porta onde será feito o ataque. O código então envia uma grande quantidade de pacotes UDP para o alvo,
-com o objetivo de sobrecarregar o sistema. O código foi feito a partir do exemplo apresentado no seguinte GitHub 
-\url{https://github.com/M-Taghizadeh/PyDOS}, onde foi misturado com os contéudos de
-\url{https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python}. São utilizadas threads para enviar 
-os pacotes de forma mais rápida. As bibliotecas utilizadas são: \textit{\textbf{scapy}}, \textit{\textbf{threading}} e 
+com o objetivo de sobrecarregar o sistema. O código foi feito com base no exemplo feito pelo professor Armando Ventura na aula, 
+e foi adotado por ser simples e ter sido previamente testado em um ambiente controlado, sendo que apenas foram feitos aperfeiçoamentos 
+para melhorar a resistência do código a erros e para permitir o envio de pacotes de forma mais rápida, utilizando threads.
 \textit{\textbf{random}}.
 \subsection{Syn Flood Attack}
 A funcionalidade de Syn Flood Attack também foi implementada utilizando a biblioteca \textit{\textbf{scapy}} do Python.
 O código pede ao utilizador um endereço IPv4 alvo, e em seguida pede a porta onde será feito o ataque. O código então
 envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshake, com o objetivo de sobrecarregar o sistema.
-O código foi feito a partir do exemplo apresentado no seguinte GitHub \url{https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python}.
+O código foi feito originalmente a partir do exemplo apresentado no seguinte GitHub \url{https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python}.
 São utilizadas threads para enviar os pacotes de forma mais rápida. As bibliotecas utilizadas são: \textit{\textbf{scapy}} e \textit{\textbf{random}}.
 \newpage
+
 
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Conclusão}\label{conclusao}

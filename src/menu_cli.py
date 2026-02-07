@@ -5,21 +5,30 @@
 
 # É o menu da aplicação
 
+
+
+from AttackFiles.syn_flood_attack import syn_attack
+from AttackFiles.dos_attack import dos_attack
+from CheckingFiles.PortScanner import nmap_scan
+from CheckingFiles.PortKnocker import knock
+from CheckingFiles.LogReporter import analyze_logs
+from PasswordFiles.PasswordManager import password_menu
+from ChatFiles.server_chat import start_server
+
 def print_menu():
     """
     Exibe a interface gráfica textual (CLI) com as opções disponíveis.
     """
-    print("\n" + "="*45)
-    print("      CENTRAL DE OPERAÇÕES DE SEGURANÇA")
+ 
     print("="*45)
-    print(" 1 - Port Checking (Enumeração Nmap)")
-    print(" 2 - DoS (Network Stress Test)")
-    print(" 3 - SYN Flood (TCP Vulnerability Test)")
-    print(" 4 - Analisador de Logs (Auditoria & Reporte)")
-    print(" 5 - Iniciar o Servidor de Chat (Proxy Re-encryption)")
-    print(" 6 - Port Knocking (Defesa por Obscuridade)")
-    print(" 7 - Gestor de Passwords (Vault com 2FA)")
-    print(" 0 - Sair da Aplicação")
+    print(" 1 - Port Checking")
+    print(" 2 - DoS")
+    print(" 3 - SYN Flood")
+    print(" 4 - Analisar Logs")
+    print(" 5 - Iniciar o Servidor de Chat")
+    print(" 6 - Port Knocking")
+    print(" 7 - Gestor de Passwords")
+    print(" 0 - Sair")
     print("="*45)
 
 def main():

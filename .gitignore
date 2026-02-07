@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 *.pem
+client_keys
+server_messages

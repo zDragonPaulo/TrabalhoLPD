@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  7 FEB 2026 17:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  7 FEB 2026 17:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1135,11 +1135,11 @@ Package pdftex.def Info: Recursos/csv.png  used on input line 349.
 
 
 [9 <./Recursos/Log2.png> <./Recursos/csv.png>]
-<Recursos/knock1.png, id=253, 435.87843pt x 237.88875pt>
+<Recursos/knock1.png, id=253, 580.1675pt x 338.26375pt>
 File: Recursos/knock1.png Graphic file (type png)
 <use Recursos/knock1.png>
 Package pdftex.def Info: Recursos/knock1.png  used on input line 361.
-(pdftex.def)             Requested size: 292.77629pt x 159.78754pt.
+(pdftex.def)             Requested size: 292.77629pt x 170.70053pt.
 <Recursos/knock2.png, id=255, 709.14937pt x 88.83188pt>
 File: Recursos/knock2.png Graphic file (type png)
 <use Recursos/knock2.png>
@@ -1147,13 +1147,13 @@ Package pdftex.def Info: Recursos/knock2.png  used on input line 371.
 (pdftex.def)             Requested size: 376.42575pt x 47.15385pt.
 
 
-[10 <./Recursos/knock1.png> <./Recursos/knock2.png>]
-<Recursos/Gestor.png, id=263, 265.74281pt x 143.03438pt>
+[10 <./Recursos/knock1.png (PNG copy)> <./Recursos/knock2.png>]
+<Recursos/Gestor.png, id=262, 265.74281pt x 143.03438pt>
 File: Recursos/Gestor.png Graphic file (type png)
 <use Recursos/Gestor.png>
 Package pdftex.def Info: Recursos/Gestor.png  used on input line 388.
 (pdftex.def)             Requested size: 209.12683pt x 112.56377pt.
-<Recursos/files_password.png, id=264, 118.94438pt x 121.20282pt>
+<Recursos/files_password.png, id=263, 118.94438pt x 121.20282pt>
 File: Recursos/files_password.png Graphic file (type png)
 <use Recursos/files_password.png>
 Package pdftex.def Info: Recursos/files_password.png  used on input line 395.
@@ -1161,12 +1161,12 @@ Package pdftex.def Info: Recursos/files_password.png  used on input line 395.
 
 
 [11 <./Recursos/Gestor.png> <./Recursos/files_password.png>]
-<Recursos/ClientMSG.png, id=273, 313.9228pt x 164.11313pt>
+<Recursos/ClientMSG.png, id=272, 313.9228pt x 164.11313pt>
 File: Recursos/ClientMSG.png Graphic file (type png)
 <use Recursos/ClientMSG.png>
 Package pdftex.def Info: Recursos/ClientMSG.png  used on input line 420.
 (pdftex.def)             Requested size: 188.21288pt x 98.3935pt.
-<Recursos/ServerMSG.png, id=274, 408.02437pt x 70.01157pt>
+<Recursos/ServerMSG.png, id=273, 408.02437pt x 70.01157pt>
 File: Recursos/ServerMSG.png Graphic file (type png)
 <use Recursos/ServerMSG.png>
 Package pdftex.def Info: Recursos/ServerMSG.png  used on input line 427.
@@ -1213,9 +1213,9 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  99i,9n,105p,812b,2805s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1728.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk>
-Output written on Relatorio.pdf (21 pages, 847499 bytes).
+Output written on Relatorio.pdf (21 pages, 861273 bytes).
 PDF statistics:
- 769 PDF objects out of 1000 (max. 8388607)
+ 768 PDF objects out of 1000 (max. 8388607)
  64 named destinations out of 1000 (max. 500000)
  255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

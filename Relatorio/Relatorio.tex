@@ -178,7 +178,8 @@ com menu em linha de comandos que permita ao utilizador: Fazer Port Scanning, fa
 a um endereço IPv4, fazer um script que analise ficheiros de log de pelo menos dois serviços, fazer um script de troca de mensagens encriptadas 
 entre um cliente e um servidor, fazer um cliente de Port Knocking e fazer um script de gestão de passwords. Tudo isto foi realizado dentro de uma 
 máquina virtual com o sistema operativo Kali Linux, utilizando a linguagem Python e algumas das bibliotecas disponíveis para a mesma. Foi 
-testado em um ambiente controlado, onde havia permissão para realizar os ataques e análises necessárias.
+testado em um ambiente controlado, onde havia permissão para realizar os ataques e análises necessárias. Todo o desenvolvimento do projeto pode 
+ser encontrado no repositório do GitHub \cite{github}.
 \subsection{Análise dos Requisitos}
 Para a realização deste trabalho prático, foi primeiro necessário compreender tudo o que estava a ser pedido para realizar o trabalho, 
 sendo analisado nas próximas secções os temas mais teóricos que necessitaram de ser aprofundados para ser possível a sua implementação.
@@ -213,7 +214,7 @@ Sendo assim, o que será feito neste trabalho é:
 \subsection{Explicação Teórica de alguns temas}
 \subsubsection{Port Scanning}
 O Port Scanning é uma técnica utilizada para identificar quais portas estão abertas, a escutar ou fechadas em um sistema de rede. Um exemplo 
-de ferramenta popular para realizar Port Scanning é o Nmap (Network Mapper), como mostrado na Figura \ref{fig:nmap_port_scanning}. O Nmap pode 
+de ferramenta popular para realizar Port Scanning é o Nmap (\cite{Nmap}), como mostrado na Figura \ref{fig:nmap_port_scanning}. O Nmap pode 
 ser utilizado para descobrir hosts e serviços em uma rede, criando um "mapa" da rede.
 \begin{figure}[h]
     \centering
@@ -224,7 +225,7 @@ ser utilizado para descobrir hosts e serviços em uma rede, criando um "mapa" da
 
 \end{figure}
 \subsubsection{DoS Attack}
-Um DoS (Denial of Service) Attack é um ataque que tem o objetivo de tornar um serviço indisponível para um ou mais utilizadores. Isso é 
+Um DoS (Denial of Service) Attack (\cite{dos}) é um ataque que tem o objetivo de tornar um serviço indisponível para um ou mais utilizadores. Isso é 
 feito através do envio de uma grande quantidade de tráfego para o alvo, através do protocolo UDP, já que este não espera uma resposta, o que facilita a
 sobrecarga do sistema alvo. 
 \begin{figure}[h]
@@ -237,7 +238,7 @@ sobrecarga do sistema alvo.
 \newpage
 
 \subsubsection{Syn Flood Attack}
-Um Syn Flood Attack é um tipo de ataque que explora o processo de handshake do protocolo TCP. O atacante envia uma grande quantidade de pacotes 
+Um Syn Flood Attack (\cite{synflood}) é um tipo de ataque que explora o processo de handshake do protocolo TCP. O atacante envia uma grande quantidade de pacotes 
 SYN para o alvo, mas nunca completa o handshake, o que leva o sistema a ficar sobrecarregado com conexões half-open. Isto pode resultar 
 na indisponibilidade do serviço para os utilizadores.
 \begin{figure}[h]
@@ -247,7 +248,7 @@ na indisponibilidade do serviço para os utilizadores.
     \label{fig:syn_flood_attack}
 \end{figure}
 \subsubsection{Port Knocking}
-O Port Knocking é uma técnica de segurança que envolve o envio de uma sequência específica de pacotes para portas fechadas em um sistema. 
+O Port Knocking \cite{PortKnocking} é uma técnica de segurança que envolve o envio de uma sequência específica de pacotes para portas fechadas em um sistema. 
 Quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o 
 acesso ao dispositivo.
 \begin{figure}[h]
@@ -278,6 +279,24 @@ A funcionalidade de Port Scanning foi implementada utilizando a biblioteca \text
 do Python. Esta biblioteca permite a realização de varreduras de portas de forma simples e eficiente. O código pede 
 ao utilizador um endereço IPv4, e em seguida pede um intervalo de portas a serem escaneadas. O resultado do escaneamento 
 é apresentado ao utilizador, mostrando quais portas estão abertas, fechadas ou filtradas.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/PortScan.png}
+    \caption{Exemplo do resultado do Port Scanning, mostrando quais portas estão abertas, fechadas ou filtradas}
+    \label{fig:port_scanner_result}
+    
+\end{figure}
+
+
+No fim, ainda é apresentado apenas as portas que há certeza que estão abertas,
+para facilitar a leitura, como se pode ver na figura \ref{fig:port_scanner_open_ports}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Recursos/PortOpen.png}
+    \caption{Exemplo do resultado do Port Scanning, mostrando apenas as portas que estão abertas}
+    \label{fig:port_scanner_open_ports}
+\end{figure}
+\newpage
 \subsection{DoS Attack}
 A funcionalidade de DoS Attack foi implementada utilizando a biblioteca \textit{\textbf{Sockets}} do Python. Esta biblioteca 
 permite a criação e envio de pacotes de rede de forma flexível. O código pede ao utilizador um endereço IPv4 alvo, e em 
@@ -287,7 +306,7 @@ e foi adotado por ser simples e ter sido previamente testado em um ambiente cont
 para melhorar a resistência do código a erros e para permitir o envio de pacotes de forma mais rápida, utilizando threads.
 \textit{\textbf{random}}.
 \subsection{Syn Flood Attack}
-A funcionalidade de Syn Flood Attack também foi implementada utilizando a biblioteca \textit{\textbf{scapy}} do Python.
+A funcionalidade de Syn Flood Attack também foi implementada utilizando a biblioteca \textit{\textbf{scapy}} \cite{scapy}do Python.
 O código pede ao utilizador um endereço IPv4 alvo, e em seguida pede a porta onde será feito o ataque. O código então
 envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshake, com o objetivo de sobrecarregar o sistema.
 O código foi feito originalmente a partir do exemplo apresentado no seguinte GitHub \url{https://thepythoncode.com/article/syn-flooding-attack-using-scapy-in-python}.
@@ -297,7 +316,7 @@ São utilizadas threads para enviar os pacotes de forma mais rápida. As bibliot
 A funcionalidade de análise de logs foi implementada utilizando as bibliotecas \textit{\textbf{geolite2}}, \textit{\textbf{FPDF}} e 
 \textit{\textbf{csv}} do Python. O código vai ao caminho conhecido do ficheiro de logs do sistema, e em seguida analisa o conteúdo do 
 ficheiro, extraindo informações relevantes como a data e hora dos eventos, o endereço IP de origem, o tipo de evento e uma 
-breve descrição do evento. O código também utiliza a biblioteca \textit{\textbf{geolite2}} para obter a localização geográfica 
+breve descrição do evento. O código também utiliza a biblioteca \textit{\textbf{geolite2}} \cite{geolite2} para obter a localização geográfica 
 dos endereços IP, e cria relatórios em pdf e csv com as informações extraídas. Para funcionar, foi necessário instalar ainda o
 \textit{rsyslog} no Kali Linux, já que em algumas situações, a instalação por defeito do rsyslog foi abandonada pela maioria das distribuições Linux,
 sendo necessário instalar o rsyslog para que os logs do sistema para o ssh sejam gerados e possam ser analisados pelo código. Os do http já são gerados por defeito, e 
@@ -305,21 +324,81 @@ não foi necessário instalar nenhum serviço adicional para que estes sejam ger
 estava a ser testado por uma máquina em rede interna, não foi possível obter a localização geográfica dos endereços IP, já que estes eram endereços IP privados, e a base de dados 
 do \textit{\textbf{geolite2}} não tem informações sobre endereços IP privados. Sendo assim, foi "falsificado" o endereço IP de origem dos eventos para um endereço IP público, para 
 que fosse possível obter a localização geográfica dos mesmos e testar a funcionalidade do código.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/Log1.png}
+    \caption{Exemplo de funcionamento do Log Analyzer}
+    \label{fig:log_report}
+\end{figure}
+\newpage
+Em seguida, é possível ver na figura \ref{fig:log_pdf_report} o exemplo do relatório em pdf gerado pelo código, onde é possível ver as 
+informações extraídas dos logs, incluindo a localização geográfica dos endereços IP.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{Recursos/Log2.png}
+    \caption{Exemplo do relatório em pdf gerado pelo Log Analyzer}
+    \label{fig:log_pdf_report}
+\end{figure}
 
+É possível também ver na figura \ref{fig:log_csv_report} o exemplo do relatório em csv gerado pelo código, 
+onde é possível ver as informações extraídas dos logs, incluindo a localização geográfica dos endereços IP, de 
+forma mais estruturada e fácil de ler. desta maneira pode ser inserido mais facilmente em bases de dados e/ou excel's.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/csv.png}
+    \caption{Exemplo do relatório em csv gerado pelo Log Analyzer}
+    \label{fig:log_csv_report}
+\end{figure}
+\newpage
 \subsection{Port Knocker}
 O Port Knocking foi implementado utilizando a biblioteca \textit{\textbf{scapy}} do Python para enviar os pacotes de forma personalizada, onde basicamente o utilizador 
 escolhe um endereço IPv4 alvo, informa o número de portas, e depois informa a sequência de portas para o Port Knocking. O código então envia pacotes TCP para as portas especificadas, 
 com o objetivo de "bater" na porta e permitir o acesso ao dispositivo alvo. Para testar esta funcionalidade, foi utilizado um servidor Alma Linux 8.10, já que este sistema operativo 
 já tinha sido configurado para esta funcionalidade em um trabalho prático anterior, sendo assim mais fácil de reutilizar a configuração já existente para esse sistema operativo.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/knock1.png}
+    \caption{Exemplo do funcionamento do Port Knocking, onde o cliente envia uma sequência específica de pacotes para portas fechadas em um sistema, e quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o acesso ao dispositivo}
+    \label{fig:port_knocking_test}
+\end{figure}
+
+E como resultado o Alma Linux 8.10 adiciona o endereço IP do cliente à lista de permissões temporária, 
+permitindo o acesso ao dispositivo, como se pode ver na figura \ref{fig:knock2}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Recursos/knock2.png}
+    \caption{Exemplo do resultado do Port Knocking, onde o sistema alvo adiciona o endereço IP do cliente à lista de permissões temporária, permitindo o acesso ao dispositivo}
+    \label{fig:knock2}
+\end{figure}
 
 \subsection{Gestor de Passwords}
 A funcionalidade de gestão de passwords foi implementada utilizando a biblioteca \textit{\textbf{cryptography}} do Python para encriptar as passwords antes de as armazenar em uma base 
 de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las. O código permite ao utilizador criar, ler, atualizar e eliminar registos de credenciais 
-de forma segura, sendo que para fazer qualquer uma das últimas três ações, o utilizador tem que passar por um processo de autenticação de dois fatores (2FA), onde é necessário inserir 
+de forma segura, sendo que para fazer qualquer uma das últimas três ações, o utilizador tem que passar por um processo de autenticação de dois fatores (2FA) (\cite{2FA}), onde é necessário inserir 
 o código que é gerado pela aplicação de autenticação, neste caso foi utilizado o Microsoft Authenticator, mas poderia ser utilizado qualquer outra aplicação de autenticação que suporte 
 o protocolo TOTP (Time-based One-Time Password). Para facilitar o processo de configuração do 2FA, o código gera um QR code que pode ser escaneado pela aplicação de autenticação para 
 adicionar a conta.
 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.50\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Recursos/Gestor.png}
+        \caption{Exemplo de funcionamento}
+        \label{fig:imagem_a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.30\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Recursos/files_password.png}
+        \caption{Ficheiros gerados pelo gestor de passwords}
+        \label{fig:imagem_b}
+    \end{subfigure}
+    \caption{Exemplo de funcionamento do gestor de passwords e os ficheiros que são gerados}
+    \label{fig:duas_imagens}
+\end{figure}
 \newpage 
 \subsection{Servidor de Mensagens}
 Este foi o último módulo a ser implementado, e foi o mais complexo de todos, já que envolveu a criação de um servidor e um cliente para a troca de mensagens encriptadas. O responsável 
@@ -334,6 +413,24 @@ mensagens recebidas. Para testar esta funcionalidade, foi necessário configurar
 para se conectar ao servidor e enviar mensagens. Assim que é estabelecida a conexão, existe a troca de chaves públicas entre o cliente e o servidor, para que o cliente possa 
 encriptar as mensagens antes de as enviar, e o servidor possa desencriptar as mensagens recebidas. O cliente pode enviar mensagens, listar e fazer download das mesmas e 
 eliminar mensagens, e o servidor irá armazenar as mensagens em ficheiros binários encriptados.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Recursos/ClientMSG.png}
+        \caption{Cliente}
+        \label{fig:imagem_a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Recursos/ServerMSG.png}
+        \caption{Servidor}
+        \label{fig:imagem_b}
+    \end{subfigure}
+    \caption{Exemplo de funcionamento do servidor e do cliente de mensagens}
+    \label{fig:duas_imagens}
+\end{figure}
 \newpage 
 \subsection{Script de Instalação}
 Para instalar as dependências necessárias para o funcionamento do projeto, foi criado um script de instalação em bash, que pode ser executado na maioria dos sistemas Linux, desde 
@@ -370,6 +467,7 @@ Foi um trabalho prático bastante complexo, que envolveu a implementação de v�
 especialmente na parte de desenvolvimento do servidor de mensagens, que foi o módulo mais complexo de todos. No entanto, foi um trabalho bastante interessante de ver a aplicação crescer 
 ao longo do tempo, e de ver as funcionalidades a serem implementadas e testadas em um ambiente controlado. Foi possível aprender bastante sobre a utilização de várias bibliotecas do Python,
 e sobre a implementação de funcionalidades relacionadas com a segurança informática, como o DoS Attack e o Syn Flood Attack. 
+\newpage 
 \renewcommand{\refname}{Bibliografia} % Para artigos
 \renewcommand{\bibname}{Bibliografia} % Para livros e relatórios
 \addcontentsline{toc}{section}{Bibliografia} % Adiciona a Bibliografia ao índice

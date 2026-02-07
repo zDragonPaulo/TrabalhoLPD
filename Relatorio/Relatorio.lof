@@ -4,3 +4,12 @@
 \contentsline {figure}{\numberline {3}{\ignorespaces Exemplo de um Syn Flood Attack, onde o atacante envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshake, sobrecarregando o sistema alvo}}{4}{figure.caption.9}%
 \contentsline {figure}{\numberline {4}{\ignorespaces Exemplo de Port Knocking, onde o cliente envia uma sequência específica de pacotes para portas fechadas em um sistema, e quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o acesso ao dispositivo}}{4}{figure.caption.10}%
 \contentsline {figure}{\numberline {5}{\ignorespaces Exemplo do Menu em Linha de Comandos}}{5}{figure.caption.11}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Exemplo do resultado do Port Scanning, mostrando quais portas estão abertas, fechadas ou filtradas}}{6}{figure.caption.12}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Exemplo do resultado do Port Scanning, mostrando apenas as portas que estão abertas}}{6}{figure.caption.13}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Exemplo de funcionamento do Log Analyzer}}{8}{figure.caption.14}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Exemplo do relatório em pdf gerado pelo Log Analyzer}}{9}{figure.caption.15}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Exemplo do relatório em csv gerado pelo Log Analyzer}}{9}{figure.caption.16}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Exemplo do funcionamento do Port Knocking, onde o cliente envia uma sequência específica de pacotes para portas fechadas em um sistema, e quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o acesso ao dispositivo}}{10}{figure.caption.17}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Exemplo do resultado do Port Knocking, onde o sistema alvo adiciona o endereço IP do cliente à lista de permissões temporária, permitindo o acesso ao dispositivo}}{10}{figure.caption.18}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Exemplo de funcionamento do gestor de passwords e os ficheiros que são gerados}}{11}{figure.caption.19}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Exemplo de funcionamento do servidor e do cliente de mensagens}}{12}{figure.caption.20}%

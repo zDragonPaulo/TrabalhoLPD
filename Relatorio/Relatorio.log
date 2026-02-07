@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  6 FEB 2026 18:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.7)  7 FEB 2026 17:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -870,6 +870,22 @@ Package csquotes Info: Redefining alias 'default' -> 'portuguese'.
  (Relatorio.aux
 Package babel Info: 'portuguese' activates 'portuges' shorthands.
 (babel)             Reported  on input line 9.
+
+
+LaTeX Warning: Label `fig:imagem_a' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:imagem_a' multiply defined.
+
+
+LaTeX Warning: Label `fig:imagem_b' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:imagem_b' multiply defined.
+
+
+LaTeX Warning: Label `fig:duas_imagens' multiply defined.
+
 )
 \openout1 = `Relatorio.aux'.
 
@@ -1049,69 +1065,139 @@ l.172 \newpage
 [1]
 
 [2]
-<Recursos/Nmap.png, id=163, 783.92876pt x 452.69125pt>
+<Recursos/Nmap.png, id=190, 783.92876pt x 452.69125pt>
 File: Recursos/Nmap.png Graphic file (type png)
 <use Recursos/Nmap.png>
-Package pdftex.def Info: Recursos/Nmap.png  used on input line 220.
+Package pdftex.def Info: Recursos/Nmap.png  used on input line 221.
 (pdftex.def)             Requested size: 209.12683pt x 120.76387pt.
-<Recursos/DoS_Attack.png, id=164, 853.1875pt x 502.87875pt>
+<Recursos/DoS_Attack.png, id=192, 853.1875pt x 502.87875pt>
 File: Recursos/DoS_Attack.png Graphic file (type png)
 <use Recursos/DoS_Attack.png>
-Package pdftex.def Info: Recursos/DoS_Attack.png  used on input line 232.
+Package pdftex.def Info: Recursos/DoS_Attack.png  used on input line 233.
 (pdftex.def)             Requested size: 209.12683pt x 123.25624pt.
 
 
 [3 <./Recursos/Nmap.png (PNG copy)> <./Recursos/DoS_Attack.png>]
-<Recursos/Syn_Attack.png, id=170, 652.4375pt x 468.75125pt>
+<Recursos/Syn_Attack.png, id=201, 652.4375pt x 468.75125pt>
 File: Recursos/Syn_Attack.png Graphic file (type png)
 <use Recursos/Syn_Attack.png>
-Package pdftex.def Info: Recursos/Syn_Attack.png  used on input line 245.
+Package pdftex.def Info: Recursos/Syn_Attack.png  used on input line 246.
 (pdftex.def)             Requested size: 209.12683pt x 150.24664pt.
-<Recursos/PortKnocking.png, id=171, 653.44125pt x 182.6825pt>
+<Recursos/PortKnocking.png, id=203, 653.44125pt x 182.6825pt>
 File: Recursos/PortKnocking.png Graphic file (type png)
 <use Recursos/PortKnocking.png>
-Package pdftex.def Info: Recursos/PortKnocking.png  used on input line 255.
+Package pdftex.def Info: Recursos/PortKnocking.png  used on input line 256.
 (pdftex.def)             Requested size: 209.12683pt x 58.46516pt.
 
 
 [4 <./Recursos/Syn_Attack.png (PNG copy)> <./Recursos/PortKnocking.png (PNG copy)>]
-<Recursos/menu.png, id=176, 488.82625pt x 493.845pt>
+<Recursos/menu.png, id=210, 488.82625pt x 493.845pt>
 File: Recursos/menu.png Graphic file (type png)
 <use Recursos/menu.png>
-Package pdftex.def Info: Recursos/menu.png  used on input line 272.
+Package pdftex.def Info: Recursos/menu.png  used on input line 273.
 (pdftex.def)             Requested size: 292.77629pt x 295.78932pt.
+<Recursos/PortScan.png, id=211, 459.96844pt x 386.94562pt>
+File: Recursos/PortScan.png Graphic file (type png)
+<use Recursos/PortScan.png>
+Package pdftex.def Info: Recursos/PortScan.png  used on input line 284.
+(pdftex.def)             Requested size: 292.77629pt x 246.30997pt.
 
 
 [5 <./Recursos/menu.png (PNG copy)>]
+<Recursos/PortOpen.png, id=219, 262.73157pt x 92.59593pt>
+File: Recursos/PortOpen.png Graphic file (type png)
+<use Recursos/PortOpen.png>
+Package pdftex.def Info: Recursos/PortOpen.png  used on input line 295.
+(pdftex.def)             Requested size: 209.12683pt x 73.70665pt.
 
-[6]
+
+[6 <./Recursos/PortScan.png> <./Recursos/PortOpen.png>]
 
 [7]
+<Recursos/Log1.png, id=236, 593.21625pt x 286.82156pt>
+File: Recursos/Log1.png Graphic file (type png)
+<use Recursos/Log1.png>
+Package pdftex.def Info: Recursos/Log1.png  used on input line 329.
+(pdftex.def)             Requested size: 292.77629pt x 141.56352pt.
 
-[8]
 
-[9]
-Overfull \hbox (1.64378pt too wide) in paragraph at lines 361--361
+[8 <./Recursos/Log1.png>]
+<Recursos/Log2.png, id=244, 624.08156pt x 301.125pt>
+File: Recursos/Log2.png Graphic file (type png)
+<use Recursos/Log2.png>
+Package pdftex.def Info: Recursos/Log2.png  used on input line 338.
+(pdftex.def)             Requested size: 418.25368pt x 201.81242pt.
+<Recursos/csv.png, id=246, 618.05907pt x 179.16937pt>
+File: Recursos/csv.png Graphic file (type png)
+<use Recursos/csv.png>
+Package pdftex.def Info: Recursos/csv.png  used on input line 349.
+(pdftex.def)             Requested size: 292.77629pt x 84.87395pt.
+
+
+[9 <./Recursos/Log2.png> <./Recursos/csv.png>]
+<Recursos/knock1.png, id=253, 435.87843pt x 237.88875pt>
+File: Recursos/knock1.png Graphic file (type png)
+<use Recursos/knock1.png>
+Package pdftex.def Info: Recursos/knock1.png  used on input line 361.
+(pdftex.def)             Requested size: 292.77629pt x 159.78754pt.
+<Recursos/knock2.png, id=255, 709.14937pt x 88.83188pt>
+File: Recursos/knock2.png Graphic file (type png)
+<use Recursos/knock2.png>
+Package pdftex.def Info: Recursos/knock2.png  used on input line 371.
+(pdftex.def)             Requested size: 376.42575pt x 47.15385pt.
+
+
+[10 <./Recursos/knock1.png> <./Recursos/knock2.png>]
+<Recursos/Gestor.png, id=263, 265.74281pt x 143.03438pt>
+File: Recursos/Gestor.png Graphic file (type png)
+<use Recursos/Gestor.png>
+Package pdftex.def Info: Recursos/Gestor.png  used on input line 388.
+(pdftex.def)             Requested size: 209.12683pt x 112.56377pt.
+<Recursos/files_password.png, id=264, 118.94438pt x 121.20282pt>
+File: Recursos/files_password.png Graphic file (type png)
+<use Recursos/files_password.png>
+Package pdftex.def Info: Recursos/files_password.png  used on input line 395.
+(pdftex.def)             Requested size: 125.47737pt x 127.8659pt.
+
+
+[11 <./Recursos/Gestor.png> <./Recursos/files_password.png>]
+<Recursos/ClientMSG.png, id=273, 313.9228pt x 164.11313pt>
+File: Recursos/ClientMSG.png Graphic file (type png)
+<use Recursos/ClientMSG.png>
+Package pdftex.def Info: Recursos/ClientMSG.png  used on input line 420.
+(pdftex.def)             Requested size: 188.21288pt x 98.3935pt.
+<Recursos/ServerMSG.png, id=274, 408.02437pt x 70.01157pt>
+File: Recursos/ServerMSG.png Graphic file (type png)
+<use Recursos/ServerMSG.png>
+Package pdftex.def Info: Recursos/ServerMSG.png  used on input line 427.
+(pdftex.def)             Requested size: 188.21288pt x 32.29437pt.
+
+
+[12 <./Recursos/ClientMSG.png> <./Recursos/ServerMSG.png>]
+Overfull \hbox (1.64378pt too wide) in paragraph at lines 458--458
 []        \T1/cmtt/m/n/10 # O --break-system-packages é necessário em versões novas do Kali/Debian[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--367
+Underfull \hbox (badness 10000) in paragraph at lines 436--464
 
  []
 
 
-LaTeX Warning: Empty bibliography on input line 376.
 
+[13]
 
+[14]
 
-[10]
-
-[11] (Relatorio.aux)
+[15] (Relatorio.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `Relatorio.out' has not changed.
 (rerunfilecheck)             Checksum: 0DE64F607A8589E15C2128DBFD91A030;2606.
 Package logreq Info: Writing requests to 'Relatorio.run.xml'.
@@ -1119,17 +1205,17 @@ Package logreq Info: Writing requests to 'Relatorio.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 36596 strings out of 469941
- 735882 string characters out of 5469431
- 1595684 words of memory out of 5000000
- 62864 multiletter control sequences out of 15000+600000
- 638204 words of font info for 62 fonts, out of 8000000 for 9000
+ 36992 strings out of 469941
+ 744983 string characters out of 5469431
+ 1598501 words of memory out of 5000000
+ 63237 multiletter control sequences out of 15000+600000
+ 638969 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,7n,105p,812b,2805s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1728.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk>
-Output written on Relatorio.pdf (17 pages, 573585 bytes).
+ 99i,9n,105p,812b,2805s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1728.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\amant\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk>
+Output written on Relatorio.pdf (21 pages, 847499 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 42 named destinations out of 1000 (max. 500000)
- 200 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 769 PDF objects out of 1000 (max. 8388607)
+ 64 named destinations out of 1000 (max. 500000)
+ 255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

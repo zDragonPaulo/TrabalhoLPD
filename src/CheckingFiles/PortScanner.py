@@ -81,13 +81,20 @@ def nmap_scan():
     tcp_info = scanner[target_ip].get('tcp', {})
     print(f"\nResultados para o host: {target_ip}")
     print("-" * 30)
-
+    port_info=[]
     for port in range(target_port_min, target_port_max + 1):
         info = tcp_info.get(port)
         if info:
             state = info.get('state', 'unknown')
             # 'open' significa que um serviço está à escuta nesta porta
             print(f"Porta {port:5} | Estado: {state}") 
+            if state == "open":
+                port_info.append((f"Porta {port:5} | Estado: {state}"))
         else:
             # Se não houver info, a porta é considerada fechada ou filtrada por firewall
             print(f"Porta {port:5} | Estado: closed/filtered")
+    print("-" * 30)
+    print("Estão abertas as portas:")
+    for info in port_info:
+        print(info)
+    print("-" * 30)

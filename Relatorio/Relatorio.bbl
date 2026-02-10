@@ -129,6 +129,43 @@
       \verb https://nmap.org/
       \endverb
     \endentry
+    \entry{pdoc}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=1,uniquepart=given,hash=7c9fdd8b29ba46453de2c19067ee1af4}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={Pdoc},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{fullhash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{fullhashraw}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{bibnamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorbibnamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authornamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorfullhash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorfullhashraw}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Gerador de documentação para Python}
+      \field{title}{Pdoc: Python Documentation Generator}
+      \field{urlday}{10}
+      \field{urlmonth}{2}
+      \field{urlyear}{2026}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://pdoc.dev/
+      \endverb
+      \verb{url}
+      \verb https://pdoc.dev/
+      \endverb
+    \endentry
     \entry{scapy}{online}{}{}
       \name{author}{1}{}{%
         {{un=1,uniquepart=given,hash=3e321a641a18a7fdb3f9bca2841083c4}{%
@@ -408,6 +445,43 @@
       \endverb
       \verb{url}
       \verb https://nmap.org/
+      \endverb
+    \endentry
+    \entry{pdoc}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=1,uniquepart=given,hash=7c9fdd8b29ba46453de2c19067ee1af4}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={Pdoc},
+           giveni={P\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{fullhash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{fullhashraw}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{bibnamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorbibnamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authornamehash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorfullhash}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \strng{authorfullhashraw}{7c9fdd8b29ba46453de2c19067ee1af4}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Gerador de documentação para Python}
+      \field{title}{Pdoc: Python Documentation Generator}
+      \field{urlday}{10}
+      \field{urlmonth}{2}
+      \field{urlyear}{2026}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://pdoc.dev/
+      \endverb
+      \verb{url}
+      \verb https://pdoc.dev/
       \endverb
     \endentry
     \entry{scapy}{online}{}{}

@@ -391,6 +391,13 @@ INPUT .\Relatorio.lof
 INPUT .\Relatorio.lof
 INPUT Relatorio.lof
 OUTPUT Relatorio.lof
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
+INPUT .\Recursos\github.png
 INPUT C:\Users\amant\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcrm1000.tfm
 INPUT C:\Users\amant\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti1000.tfm
 INPUT C:\Users\amant\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbi1000.tfm

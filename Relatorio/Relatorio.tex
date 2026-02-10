@@ -179,7 +179,15 @@ a um endereço IPv4, fazer um script que analise ficheiros de log de pelo menos 
 entre um cliente e um servidor, fazer um cliente de Port Knocking e fazer um script de gestão de passwords. Tudo isto foi realizado dentro de uma 
 máquina virtual com o sistema operativo Kali Linux, utilizando a linguagem Python e algumas das bibliotecas disponíveis para a mesma. Foi 
 testado em um ambiente controlado, onde havia permissão para realizar os ataques e análises necessárias. Todo o desenvolvimento do projeto pode 
-ser encontrado no repositório do GitHub \cite{github}.
+ser encontrado no repositório do GitHub (\cite{github}), junto de todos os commits feitos e não apenas os últimos como é possível ver na imagem 
+\cite{github}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Recursos/github.png}
+    \caption{Exemplo do menu em linha de comandos, onde o utilizador pode escolher qual funcionalidade deseja utilizar}
+    \label{fig:menu_cli}
+    
+\end{figure}
 \subsection{Análise dos Requisitos}
 Para a realização deste trabalho prático, foi primeiro necessário compreender tudo o que estava a ser pedido para realizar o trabalho, 
 sendo analisado nas próximas secções os temas mais teóricos que necessitaram de ser aprofundados para ser possível a sua implementação.
@@ -192,7 +200,7 @@ Sendo assim, o que será feito neste trabalho é:
     para sobrecarregar o sistema alvo.
     \item Implementar a funcionalidade de Syn Flood Attack, enviando uma grande quantidade de pacotes SYN para um alvo, sem completar o 
     handshake, para sobrecarregar o router do sistema alvo.
-    \newpage
+    
     \item Implementar a funcionalidade de análise de logs, para analisar ficheiros de log do ssh e do http, e serão criados relatórios 
     em pdf e csv para estes. O relatório irá conter informações sobre a data e hora dos eventos, o endereço IP de origem, o tipo de evento e 
     uma breve descrição do evento e caso seja possível, o país e cidade de origem do endereço IP.  Para isso, serão utilizadas as bibliotecas 
@@ -202,6 +210,7 @@ Sendo assim, o que será feito neste trabalho é:
     comunicação entre ambos, e utilizando a biblioteca \textit{\textbf{cryptography}} do Python para a encriptação e desencriptação das 
     mensagens. O objetivo será para um arquivamento seguro das mensagens, onde apenas o cliente e o servidor terão acesso ao conteúdo das 
     mensagens.
+    \newpage
     \item Implementar a funcionalidade de Port Knocking, onde o cliente irá enviar uma sequência específica de pacotes para portas fechadas em um 
     sistema, e quando a sequência correta for recebida, o sistema irá adicionar o endereço IP do remetente a uma lista de permissões temporária, 
     permitindo o acesso ao dispositivo.
@@ -210,7 +219,6 @@ Sendo assim, o que será feito neste trabalho é:
     uma base de dados SQLite, e para desencriptar as passwords quando o utilizador quiser visualizá-las com recurso a 2FA.
     manualmente.
 \end{itemize}
-\newpage
 \subsection{Explicação Teórica de alguns temas}
 \subsubsection{Port Scanning}
 O Port Scanning é uma técnica utilizada para identificar quais portas estão abertas, a escutar ou fechadas em um sistema de rede. Um exemplo 
@@ -224,6 +232,7 @@ ser utilizado para descobrir hosts e serviços em uma rede, criando um "mapa" da
 
 
 \end{figure}
+\newpage
 \subsubsection{DoS Attack}
 Um DoS (Denial of Service) Attack (\cite{dos}) é um ataque que tem o objetivo de tornar um serviço indisponível para um ou mais utilizadores. Isso é 
 feito através do envio de uma grande quantidade de tráfego para o alvo, através do protocolo UDP, já que este não espera uma resposta, o que facilita a
@@ -235,7 +244,7 @@ sobrecarga do sistema alvo.
     \label{fig:dos_attack}  
     
 \end{figure}
-\newpage
+
 
 \subsubsection{Syn Flood Attack}
 Um Syn Flood Attack (\cite{synflood}) é um tipo de ataque que explora o processo de handshake do protocolo TCP. O atacante envia uma grande quantidade de pacotes 
@@ -243,17 +252,18 @@ SYN para o alvo, mas nunca completa o handshake, o que leva o sistema a ficar so
 na indisponibilidade do serviço para os utilizadores.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Recursos/Syn_Attack.png}
+    \includegraphics[width=0.45\textwidth]{Recursos/Syn_Attack.png}
     \caption{Exemplo de um Syn Flood Attack, onde o atacante envia uma grande quantidade de pacotes SYN para o alvo, sem completar o handshake, sobrecarregando o sistema alvo}
     \label{fig:syn_flood_attack}
 \end{figure}
+\newpage
 \subsubsection{Port Knocking}
 O Port Knocking \cite{PortKnocking} é uma técnica de segurança que envolve o envio de uma sequência específica de pacotes para portas fechadas em um sistema. 
 Quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o 
 acesso ao dispositivo.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{Recursos/PortKnocking.png}
+    \includegraphics[width=0.45\textwidth]{Recursos/PortKnocking.png}
     \caption{Exemplo de Port Knocking, onde o cliente envia uma sequência específica de pacotes para portas fechadas em um sistema, e quando a sequência correta é recebida, o sistema adiciona o endereço IP do remetente a uma lista de permissões temporária, permitindo o acesso ao dispositivo}
     \label{fig:port_knocking}
 \end{figure}
@@ -407,9 +417,9 @@ conecta ao servidor para enviar e receber mensagens. O código do servidor utili
 biblioteca \textit{\textbf{cryptography}} para encriptar e desencriptar as mensagens. O código do cliente também utiliza a biblioteca \textit{\textbf{socket}} para se conectar 
 ao servidor, e a biblioteca \textit{\textbf{cryptography}} para encriptar as mensagens antes de as enviar, e para desencriptar as mensagens recebidas do servidor. 
 
-Este script de mensagens baseia-se nas chaves assimétricas RSA para a encriptação e desencriptação das mensagens, onde o servidor gera um par de chaves (uma chave pública e 
+Estes scripts de mensagens baseiam-se nas chaves assimétricas RSA para a encriptação e desencriptação das mensagens, onde o servidor gera um par de chaves (uma chave pública e 
 uma chave privada), e o cliente utiliza a chave pública do servidor para encriptar as mensagens antes de as enviar, e o servidor utiliza a sua chave privada para desencriptar as 
-mensagens recebidas. Para testar esta funcionalidade, foi necessário configurar o servidor para aceitar conexões na porta 12345, e depois executar o cliente em outra máquina 
+mensagens recebidas. Para testar esta funcionalidade, foi necessário configurar o servidor para aceitar conexões na porta 9999, e depois executar o cliente em outra máquina 
 para se conectar ao servidor e enviar mensagens. Assim que é estabelecida a conexão, existe a troca de chaves públicas entre o cliente e o servidor, para que o cliente possa 
 encriptar as mensagens antes de as enviar, e o servidor possa desencriptar as mensagens recebidas. O cliente pode enviar mensagens, listar e fazer download das mesmas e 
 eliminar mensagens, e o servidor irá armazenar as mensagens em ficheiros binários encriptados.
@@ -432,7 +442,7 @@ eliminar mensagens, e o servidor irá armazenar as mensagens em ficheiros binár
     \label{fig:duas_imagens}
 \end{figure}
 \newpage 
-\subsection{Script de Instalação}
+\subsection{Ficheiros auxiliares}
 Para instalar as dependências necessárias para o funcionamento do projeto, foi criado um script de instalação em bash, que pode ser executado na maioria dos sistemas Linux, desde 
 que utilizem o gerenciador de pacotes apt, como é o caso do Kali Linux. O script atualiza a lista de pacotes do sistema, garante que o Python3 e o PIP estão instalados, e instala 
 as bibliotecas necessárias para o funcionamento do projeto, como o rsyslog para a geração dos logs do ssh, o apache2 para a geração dos logs do http, e as bibliotecas do Python 
@@ -460,6 +470,11 @@ necessárias para as funcionalidades implementadas.\\\\
 \end{minipage}
 O txt do script de instalação pode ser encontrado no ficheiro \textbf{installer.sh} na pasta \textbf{src} do projeto, junto do ficheiro \textbf{requirements.txt} que contém 
 as bibliotecas do Python necessárias para o funcionamento do projeto.
+\newpage
+Para além disso, foi criado um manual de instruções para explicar de forma simples o que cada funcionalidade faz, 
+e como utilizá-las, para facilitar a utilização do projeto por parte dos utilizadores, este pode ser encontrado no 
+ficheiro \textbf{manual.pdf}, no entanto caso seja necessário e o utilizador queira fazer uma leitura mais detalhada, 
+pode utilizar a documentação do código, que foi feita com recurso a Pdoc (\cite{pdoc})
 %---------------------------------------------------------------------------------------------------------------------------
 \section{Conclusão}\label{conclusao}
 
